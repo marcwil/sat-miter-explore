@@ -1,0 +1,17 @@
+instance,tool,status,time,conflicts,timeout
+B_n128_d2_m8_w24_t10_s0_Pik,abc_cec,UNSAT,1.043,,300
+B_n128_d2_m8_w24_t10_s0_Pik,abc_gcec,UNSAT,0.263,,300
+B_n128_d2_m8_w24_t10_s0_Pik,kissat,UNSAT,1.8,68137,300
+B_n128_d2_m8_w24_t3_s0_Pik,kissat,UNSAT,1.647,68501,300
+B_n128_d2_m8_w24_t3_s0_Pik,abc_cec,UNSAT,0.897,,300
+B_n128_d2_m8_w24_t3_s0_Pik,abc_gcec,UNSAT,0.262,,300
+B_n128_d2_m8_w24_t3_s0_Pik,cadical,UNSAT,4.017,164124,300
+B_n128_d2_m8_w24_t10_s0_Pik,cadical,UNSAT,6.093,227005,300
+B_n128_d2_m8_w4_t10_s0_Pknead,abc_cec,UNSAT,0.436,,300
+B_n128_d2_m8_w4_t10_s0_Pknead,abc_gcec,UNSAT,0.217,,300
+B_n128_d2_m8_w4_t10_s0_Pknead,kissat,UNSAT,1.662,63816,300
+B_n128_d2_m8_w4_t3_s0_Pknead,kissat,UNSAT,1.443,58916,300
+B_n128_d2_m8_w4_t10_s0_Pknead,cadical,UNSAT,3.853,163890,300
+B_n128_d2_m8_w4_t3_s0_Pknead,abc_gcec,UNSAT,0.224,,300
+B_n128_d2_m8_w4_t3_s0_Pknead,abc_cec,UNSAT,0.436,,300
+B_n128_d2_m8_w4_t3_s0_Pknead,cadical,UNSAT,4.552,177722,300

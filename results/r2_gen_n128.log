@@ -1,0 +1,4 @@
+B_n128_d2_m8_w24_t3_s0_Pik t=3072/3072 m_t=1280 attempts=5894 gen=207s
+B_n128_d2_m8_w24_t10_s0_Pik t=10240/10240 m_t=1280 attempts=21137 gen=757s 
+B_n128_d2_m8_w4_t3_s0_Pknead t=3072/3072 m_t=1024 attempts=3595 gen=296s
+B_n128_d2_m8_w4_t10_s0_Pknead t=10240/10240 m_t=1024 attempts=11934 gen=974s 

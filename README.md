@@ -1,7 +1,10 @@
 # sat-miter-explore
 
-First-round experiments for the proposal *Random geometric miters:
-explanations that are easy to record and hard to recover*.
+Experiments for the proposal *Random geometric miters: explanations that are
+easy to record and hard to recover*.
 
-**Start with [REPORT.md](REPORT.md)**: findings, plots, tables, and how to
-reproduce them.
+- [REPORT.md](REPORT.md): round 1. The model as proposed, the gauge-only
+  finding, solver and sweeping results, and the first weighted variant.
+- [REPORT_ROUND2.md](REPORT_ROUND2.md): round 2. Richer rewriting
+  (knead, inflate, deflate), the correspondence width and its plateau, and the
+  corrected weighted variant.

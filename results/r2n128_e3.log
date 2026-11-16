@@ -1,0 +1,16 @@
+B_n128_d2_m8_w24_t10_s0_Pik abc_cec UNSAT 1.043 None
+B_n128_d2_m8_w24_t10_s0_Pik abc_gcec UNSAT 0.263 None
+B_n128_d2_m8_w24_t10_s0_Pik kissat UNSAT 1.8 68137
+B_n128_d2_m8_w24_t3_s0_Pik kissat UNSAT 1.647 68501
+B_n128_d2_m8_w24_t3_s0_Pik abc_cec UNSAT 0.897 None
+B_n128_d2_m8_w24_t3_s0_Pik abc_gcec UNSAT 0.262 None
+B_n128_d2_m8_w24_t3_s0_Pik cadical UNSAT 4.017 164124
+B_n128_d2_m8_w24_t10_s0_Pik cadical UNSAT 6.093 227005
+B_n128_d2_m8_w4_t10_s0_Pknead abc_cec UNSAT 0.436 None
+B_n128_d2_m8_w4_t10_s0_Pknead abc_gcec UNSAT 0.217 None
+B_n128_d2_m8_w4_t10_s0_Pknead kissat UNSAT 1.662 63816
+B_n128_d2_m8_w4_t3_s0_Pknead kissat UNSAT 1.443 58916
+B_n128_d2_m8_w4_t10_s0_Pknead cadical UNSAT 3.853 163890
+B_n128_d2_m8_w4_t3_s0_Pknead abc_gcec UNSAT 0.224 None
+B_n128_d2_m8_w4_t3_s0_Pknead abc_cec UNSAT 0.436 None
+B_n128_d2_m8_w4_t3_s0_Pknead cadical UNSAT 4.552 177722
