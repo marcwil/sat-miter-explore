@@ -1,0 +1,14 @@
+B_n64_d2_m8_w24_t10_s0_Pik t=5120/5120 m_t=640 attempts=9977 gen=421s
+B_n64_d2_m8_w24_t30_s0_Pik t=15360/15360 m_t=640 attempts=31935 gen=1427s 
+B_n64_d2_m8_w4_t10_s0_Pknead t=5120/5120 m_t=512 attempts=5585 gen=533s
+B_n64_d2_m8_w4_t30_s0_Pknead t=15360/15360 m_t=512 attempts=16951 gen=1593s 
+B_n32_d2_m8_w24_t1_s0_Pik t=256/256 m_t=320 attempts=414 gen=18s
+B_n32_d2_m8_w24_t3_s0_Pik t=768/768 m_t=320 attempts=1419 gen=75s
+B_n32_d2_m8_w24_t10_s0_Pik t=2560/2560 m_t=320 attempts=5272 gen=253s
+B_n32_d2_m8_w24_t30_s0_Pik t=7680/7680 m_t=320 attempts=16501 gen=802s
+B_n32_d2_m8_w24_t100_s0_Pik t=25600/25600 m_t=320 attempts=55420 gen=2978s 
+B_n32_d2_m8_w4_t1_s0_Pknead t=256/256 m_t=256 attempts=287 gen=36s
+B_n32_d2_m8_w4_t3_s0_Pknead t=768/768 m_t=256 attempts=824 gen=96s
+B_n32_d2_m8_w4_t10_s0_Pknead t=2560/2560 m_t=256 attempts=2822 gen=331s
+B_n32_d2_m8_w4_t30_s0_Pknead t=7680/7680 m_t=256 attempts=8559 gen=1001s
+B_n32_d2_m8_w4_t100_s0_Pknead t=25600/25600 m_t=256 attempts=28377 gen=3249s 

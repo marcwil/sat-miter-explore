@@ -16,7 +16,7 @@ def generate(p):
     sys.path.insert(0, HERE)
     import model, mix, instance
     q = dict(instance.DEFAULTS); q.update(p)
-    q["w"] = {"w3": 3, "knead": 4, "ik": 24}[q["mode"]]
+    q["w"] = {"w3": 3, "knead": 4, "ik": 24, "none": 0}[q["mode"]]
     geo = model.Geometry(q["n"], q["d"], q["k_nb"], seed=1000 + q["seed"], beta=q["beta"],
                          alpha=q.get("alpha", 0.0), pctrl=q.get("pctrl", 1.0))
     heavy = frozenset()
@@ -28,7 +28,7 @@ def generate(p):
     C0 = []
     while len(C0) < m:
         g = model.random_gate(geo, q["gset"], rng)
-        if g[0][0] not in heavy:
+        if not any(w in heavy for w in g[0]):
             C0.append(g)
     mix.SAMPLER = q.get("sampler", "fp")
     snaps = sorted(q.get("snap", [q["tfrac"]]))
@@ -36,7 +36,11 @@ def generate(p):
     agg = {}
     for sf in snaps:
         t = int(round(sf * m))
-        Ct, tr_new, st = mix.process(Ct, geo, q["gset"], t - done, rng, q["mode"], heavy, target=int(1.25 * m))
+        if q["mode"] == "none":
+            tr_new, st = [], dict(attempts=0, final_m=len(Ct))
+        else:
+            Ct, tr_new, st = mix.process(Ct, geo, q["gset"], t - done, rng, q["mode"], heavy,
+                                         target=int(q.get("size_mult", 1.25) * m))
         tr = tr + tr_new; done = len(tr)
         for k2, v in st.items():
             agg[k2] = agg.get(k2, 0) + v if k2 != "final_m" else v
@@ -54,7 +58,7 @@ def _job(args):
     import instance
     last = dict(p, tfrac=max(p.get("snap", [p["tfrac"]])))
     last.pop("snap", None); last.pop("sampler", None)
-    nm = instance.name_of(dict(instance.DEFAULTS, **last, w={"w3": 3, "knead": 4, "ik": 24}[p["mode"]]))
+    nm = instance.name_of(dict(instance.DEFAULTS, **last, w={"w3": 3, "knead": 4, "ik": 24, "none": 0}[p["mode"]]))
     if os.path.exists(os.path.join(outdir, nm + ".json")):
         return nm, "exists"
     msgs = []

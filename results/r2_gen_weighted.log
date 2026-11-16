@@ -1,0 +1,6 @@
+Bw_n64_d2_m8_w4_t0_s1_b2.5_a4_p0.25_Pknead_h0.05 t=0/0 m_t=512 attempts=0 gen=0s
+Bw_n64_d2_m8_w4_t1_s1_b2.5_a4_p0.25_Pknead_h0.05 t=512/512 m_t=512 attempts=547 gen=144s
+Bw_n64_d2_m8_w4_t3_s1_b2.5_a4_p0.25_Pknead_h0.05 t=1536/1536 m_t=512 attempts=1685 gen=445s 
+Bw_n64_d2_m8_w4_t0_s0_b2.5_a4_p0.25_Pknead_h0.05 t=0/0 m_t=512 attempts=0 gen=0s
+Bw_n64_d2_m8_w4_t1_s0_b2.5_a4_p0.25_Pknead_h0.05 t=512/512 m_t=512 attempts=572 gen=153s
+Bw_n64_d2_m8_w4_t3_s0_b2.5_a4_p0.25_Pknead_h0.05 t=1536/1536 m_t=512 attempts=1748 gen=460s 

@@ -125,3 +125,26 @@ def plot_r2_width(csvfile, fname="r2_width.png", null=None):
     axes[0].legend(frameon=False, fontsize=8)
     fig.suptitle("gate set B, n = 64, m = 512", fontsize=10)
     fig.tight_layout(); fig.savefig(os.path.join(OUT, fname), dpi=150); plt.close(fig)
+
+
+def plot_r2_long(csvfile, fname="r2_long.png", nulls={32: (20.7, 0.17), 64: (29.5, 0.16)}):
+    d = pd.read_csv(csvfile)
+    d = d[d.gset == "B"].copy()
+    d["label"] = d.apply(lambda r: "%s, n=%d%s" % (r["mode"], r["n"], ", size 3m" if "_x3" in r["instance"] else ""), axis=1)
+    pal = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4"]
+    fig, axes = plt.subplots(1, 3, figsize=(13, 3.8))
+    for ax, (col, title) in zip(axes, [("wire_mean", "mean wire width"), ("wire_le3", "fraction of wires with width <= 3"),
+                                       ("gate_frac", "C_0 gates surviving verbatim")]):
+        for c, (lab, s) in zip(pal, sorted(d.groupby("label"), key=lambda x: x[0])):
+            s = s.sort_values("tfrac")
+            ax.plot(s.tfrac, s[col], "-o", color=c, label=lab)
+        if col in ("wire_mean", "wire_le3"):
+            for n, (wm, le3) in nulls.items():
+                ax.axhline(wm if col == "wire_mean" else le3, color="#8a8984", ls="--" if n == 64 else ":", lw=1,
+                           label="null, n=%d" % n)
+        ax.set_xscale("log"); ax.set_xlabel("rewrite steps t / gates m"); ax.set_title(title, fontsize=10)
+        if col == "wire_mean":
+            ax.set_yscale("log"); ax.set_yticks([1, 2, 3, 5, 10, 20, 30]); ax.set_yticklabels(["1", "2", "3", "5", "10", "20", "30"])
+    axes[0].legend(frameon=False, fontsize=7)
+    fig.suptitle("long runs, gate set B, m = 8n (one seed)", fontsize=10)
+    fig.tight_layout(); fig.savefig(os.path.join(OUT, fname), dpi=150); plt.close(fig)

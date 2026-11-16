@@ -1,0 +1,3 @@
+B_n32_d2_m8_w24_t3_s0_Pik_x3 t=768/768 m_t=768 attempts=892 gen=28s
+B_n32_d2_m8_w24_t10_s0_Pik_x3 t=2560/2560 m_t=768 attempts=3870 gen=111s
+B_n32_d2_m8_w24_t30_s0_Pik_x3 t=7680/7680 m_t=768 attempts=13505 gen=512s 

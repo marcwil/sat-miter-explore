@@ -19,6 +19,8 @@ def name_of(p):
         s += "_P%s" % p["mode"]
     if p.get("heavy_q"):
         s += "_h%g" % p["heavy_q"]
+    if p.get("size_mult", 1.25) != 1.25:
+        s += "_x%g" % p["size_mult"]
     return s
 
 
