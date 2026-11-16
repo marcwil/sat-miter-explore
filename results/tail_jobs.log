@@ -76,3 +76,6 @@
 + python3 -u e4_sweep.py results/instances/big results/e4_sweep_big.csv 300
 + N=results/instances/n64
 + python3 -u e5_backdoor.py results/e5_backdoor.csv 300 results/instances/n64/Aw_n64_d2_m8_w2_t0_s0_b2.5.cnf results/instances/n64/Aw_n64_d2_m8_w2_t1_s0_b2.5.cnf results/instances/n64/A_n64_d2_m8_w2_t0_s0.cnf results/instances/n64/A_n64_d2_m8_w2_t1_s0.cnf
++ python3 -u run.py solve results/instances/n64 results/e3_n64_clean.csv 300 cadical,kissat,abc_cec,abc_gcec '_t(0|1|10)_s[012](_b2.5)?$'
++ echo TAIL_DONE
+TAIL_DONE

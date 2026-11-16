@@ -45,7 +45,8 @@ reproduce them is at the end.
 6. **The weighted variant gives a heavy-tailed degree distribution but no
    hardness.**
    - It makes CDCL slower by a constant factor already at t = 0.
-   - It does not make hardness grow with t.
+   - It does not make hardness grow with t, and splitting on the
+     highest-degree variables does not help (they are not a backdoor).
    - With distance-independent controls, the formula stops looking geometric.
      A distance penalty on light wires (GIRG-like) and controls on only a
      fraction of gates restore it.
@@ -174,10 +175,13 @@ that this does not accumulate in practice.
 | B: groups with bijective partner | 0.91 | 0.73 | 0.68 |
 | B: gates verbatim | 0.94 | 0.73 | 0.61 |
 
-All three curves saturate. In A, a signal keeps an equivalent unless its
-outgoing edge carries ≥ 2 wires, and gauges never propagate. In B, about 35%
-of windows have no alternative at all, and half of the alternatives are
-reorderings. So the walk stays close to C_0 even at t = 10m.
+All three curves saturate.
+- In A, a gauge stays on the edge where it was inserted; it does not propagate.
+  A signal loses its equivalent only if the gauge on its outgoing edge mixes
+  two or more wires, and a 1-wire gauge is the identity or NOT.
+- In B, about 35% of windows have no alternative at all, and half of the
+  alternatives are reorderings. So the walk stays close to C_0 even at
+  t = 10m.
 
 *Measurement:* 1024 random input patterns. Two different balanced functions
 that agree on all of them are possible in principle but unlikely; matches were
@@ -228,7 +232,7 @@ What the tables show:
   and are merged by hashing. They slow down once t > 0, but stay around 1 s for
   A and B.
   - The largest growth is ABC `&cec` on A_w (0.0 s → 85 s at n = 128). On the
-    same instances ABC `cec` needs ≤ 11 s.
+    same instances ABC `cec` needs at most 13.4 s.
   - For CDCL the largest growth is Kissat on A at n = 256: 9 s at t = 0, 29–32 s
     at t ≥ m.
   - Everything is flat beyond t ≈ m, as the E2 plateau predicts.
@@ -251,8 +255,30 @@ What the tables show:
   already present at t = 0: about 30 s for CaDiCaL at n = 64 and 128.
   Changing β (2.2, 2.5, 3.0) changes little; see results/tables.md.
 - *Caveat on timing:* the n = 64 grid was solved while instance generation and
-  analysis shared the 4 cores. A clean re-run of t ∈ {0, m, 10m} on an idle
-  machine is reported below (CLEAN_NOTE).
+  analysis shared the 4 cores, which inflated its times by about 2×. A clean
+  re-run of t ∈ {0, m, 10m} on an otherwise idle machine (3 seeds, β = 2.5
+  for the weighted sets) gives the same trends:
+
+| gate set | n | tool | t/m=0 | t/m=0.1 | t/m=0.3 | t/m=1 | t/m=3 | t/m=10 |
+|---|---|---|---|---|---|---|---|---|
+| A | 64 | cadical | 4.7 | – | – | 6.0 | – | 5.9 |
+| A | 64 | kissat | 0.7 | – | – | 1.4 | – | 1.5 |
+| A | 64 | abc_cec | 0.1 | – | – | 0.4 | – | 0.5 |
+| A | 64 | abc_gcec | 0.0 | – | – | 0.4 | – | 0.6 |
+| Aw | 64 | cadical | 14.7 | – | – | 19.1 | – | 14.9 |
+| Aw | 64 | kissat | 7.1 | – | – | 7.8 | – | 8.1 |
+| Aw | 64 | abc_cec | 0.1 | – | – | 1.7 | – | 4.5 |
+| Aw | 64 | abc_gcec | 0.0 | – | – | 4.0 | – | 5.5 |
+| B | 64 | cadical | 0.9 | – | – | 1.7 | – | 2.1 |
+| B | 64 | kissat | 0.2 | – | – | 1.0 | – | 0.9 |
+| B | 64 | abc_cec | 0.0 | – | – | 0.3 | – | 0.3 |
+| B | 64 | abc_gcec | 0.0 | – | – | 0.1 | – | 0.1 |
+| Bw | 64 | cadical | 1.2 | – | – | 1.0 | – | 1.0 |
+| Bw | 64 | kissat | 0.4 | – | – | 0.5 | – | 0.7 |
+| Bw | 64 | abc_cec | 0.1 | – | – | 0.4 | – | 0.4 |
+| Bw | 64 | abc_gcec | 0.0 | – | – | 0.1 | – | 0.1 |
+
+  The n = 128/256 grid ran without competing jobs.
 
 
 ## E4 — relational sweeping (transcript-free)
@@ -382,7 +408,37 @@ targets, depending on that control.
 **Backdoor test.** Split on the k highest-degree variables and solve all 2^k
 cubes with CaDiCaL (300 s per cube).
 
-BACKDOOR_TABLE
+| instance | k | cubes | solved | total [s] | max cube [s] | total / unsplit |
+|---|---|---|---|---|---|---|
+| Aw_n64_d2_m8_w2_t0_s0_b2.5 | 0 | 1 | 1 | 15.7 | 15.7 | 1.0 |
+| Aw_n64_d2_m8_w2_t0_s0_b2.5 | 1 | 2 | 2 | 29.0 | 15.6 | 1.9 |
+| Aw_n64_d2_m8_w2_t0_s0_b2.5 | 2 | 4 | 4 | 66.2 | 18.6 | 4.2 |
+| Aw_n64_d2_m8_w2_t0_s0_b2.5 | 4 | 16 | 16 | 115.5 | 14.3 | 7.4 |
+| Aw_n64_d2_m8_w2_t0_s0_b2.5 | 6 | 64 | 64 | 496.4 | 27.1 | 31.7 |
+| Aw_n64_d2_m8_w2_t1_s0_b2.5 | 0 | 1 | 1 | 17.5 | 17.5 | 1.0 |
+| Aw_n64_d2_m8_w2_t1_s0_b2.5 | 1 | 2 | 2 | 33.5 | 17.0 | 1.9 |
+| Aw_n64_d2_m8_w2_t1_s0_b2.5 | 2 | 4 | 4 | 63.4 | 20.7 | 3.6 |
+| Aw_n64_d2_m8_w2_t1_s0_b2.5 | 4 | 16 | 16 | 143.4 | 21.0 | 8.2 |
+| Aw_n64_d2_m8_w2_t1_s0_b2.5 | 6 | 64 | 64 | 556.0 | 28.5 | 31.8 |
+| A_n64_d2_m8_w2_t0_s0 | 0 | 1 | 1 | 4.6 | 4.6 | 1.0 |
+| A_n64_d2_m8_w2_t0_s0 | 1 | 2 | 2 | 9.0 | 4.7 | 2.0 |
+| A_n64_d2_m8_w2_t0_s0 | 2 | 4 | 4 | 18.8 | 6.1 | 4.1 |
+| A_n64_d2_m8_w2_t0_s0 | 4 | 16 | 16 | 76.2 | 6.4 | 16.7 |
+| A_n64_d2_m8_w2_t0_s0 | 6 | 64 | 64 | 322.6 | 7.0 | 70.7 |
+| A_n64_d2_m8_w2_t1_s0 | 0 | 1 | 1 | 5.8 | 5.8 | 1.0 |
+| A_n64_d2_m8_w2_t1_s0 | 1 | 2 | 2 | 11.8 | 5.9 | 2.0 |
+| A_n64_d2_m8_w2_t1_s0 | 2 | 4 | 4 | 25.4 | 7.6 | 4.4 |
+| A_n64_d2_m8_w2_t1_s0 | 4 | 16 | 16 | 85.3 | 7.5 | 14.7 |
+| A_n64_d2_m8_w2_t1_s0 | 6 | 64 | 64 | 350.6 | 9.1 | 60.6 |
+
+- Splitting on the top-degree variables never helps. Total time grows like
+  2^k (the cubes ran 4 in parallel, so they are slightly slower than the
+  unsplit run).
+- The single cubes are no easier than the unsplit instance, both for A_w and
+  for A.
+- So in the naive weighted model the high-degree variables are not a backdoor.
+  This fits the observation that each heavy wire is split into many
+  short-lived variables.
 
 **Candidate Q5** (one line for the exploration plan): *Weighted controls:* with
 heavy, rarely-overwritten control wires chosen by a GIRG kernel, do the
@@ -409,8 +465,8 @@ enough from C_0:
   gate.
 - In B, a third of windows are rigid, so the walk plateaus with most gates
   unchanged.
-Larger n would not change this, because every statistic in E2 and E4 is flat
-in n.
+Larger n is unlikely to change this: the fraction of related groups in E4 is
+the same at n = 64, 128 and 256. E2 was measured only at n = 64.
 
 ## What this means for the proposal
 
@@ -442,12 +498,16 @@ watch.**
 - Each should be checked by E1 (skeleton changes), E2 (survival) and E4 (does
   sweeping still work?) before solver runs.
 
-**3. Q1 as phrased is false for this model at w = 2.**
-- A "randomly drawn replacement" of a 2-gate window by 2 gates is a gauge, and
-  disjoint gauges give constant-width refutations.
-- A 2^Ω(w) lower bound needs replacements whose internal structure is
-  unrelated to the original's. The proposal's planted parity window is such a
-  case.
+**3. Q1 needs a different notion of "random replacement".**
+- At w = 2, a uniformly random equivalent replacement of the same length is a
+  gauge of the original, in 98% of windows.
+- For disjoint gauged windows, the refutation has size O(m) and constant width,
+  whatever replacement was drawn.
+- If the counting argument extends to larger w, so that same-length
+  replacements stay gauge-like, then no 2^Ω(w) lower bound holds for them.
+- A lower bound needs replacements whose internal structure is unrelated to
+  the original's, for example re-synthesis by a longer circuit. The proposal's
+  planted parity window is such a case.
 
 **4. Weighted variant.**
 - Exclude heavy wires from being targets, or make that rare.
@@ -472,17 +532,43 @@ watch.**
 ## Reproduce
 
 ```bash
-python3 e0_validate.py                         # E0
-python3 e1_richness.py 2000 400                # E1 -> results/e1_richness.json
-python3 run.py gen grids/e2.json results/instances/n64 4
-python3 run.py gen grids/big.json results/instances/big 4
-python3 run.py gen grids/e5.json results/instances/n64 4
-python3 e2_stats.py results/instances/n64 results/e2_stats.csv
-python3 run.py solve results/instances/n64 results/e3_n64.csv 300 cadical,kissat,abc_cec,abc_gcec
+python3 e0_validate.py                                   # E0
+python3 e1_richness.py 2000 400                          # E1 -> results/e1_richness.json
+python3 run.py gen grids/e2.json  results/instances/n64 4  # instances (A/Aw/B/Bw, n = 64)
+python3 run.py gen grids/e5.json  results/instances/n64 4  # weighted, beta 2.2 / 3.0
+python3 run.py gen grids/big.json results/instances/big 4  # n = 128 / 256
+python3 run.py gen grids/e5geo.json results/instances/e5geo 4
+python3 e2_stats.py results/instances/n64 results/e2_stats.csv                      # E2
+python3 run.py solve results/instances/n64 results/e3_n64.csv 300 cadical,kissat,abc_cec,abc_gcec   # E3
 python3 run.py solve results/instances/big results/e3_big.csv 300 cadical,kissat,abc_cec,abc_gcec
-python3 e4_sweep.py results/instances/n64 results/e4_sweep_n64.csv
-python3 e5_realism.py results/instances/n64 results/instances/e5geo
-python3 plots.py e2 e3
+python3 run.py solve results/instances/n64 results/e3_n64_nocc.csv 120 cadical_nocc,kissat_nocc "_s0(_|$)"
+python3 e4_sweep.py results/instances/n64 results/e4_sweep_n64.csv                  # E4
+python3 e4_sweep.py results/instances/big results/e4_sweep_big.csv
+python3 e5_realism.py results/instances/n64 results/instances/e5geo                 # E5
+python3 e5_backdoor.py results/e5_backdoor.csv 300 results/instances/n64/{Aw_n64_d2_m8_w2_t0_s0_b2.5,Aw_n64_d2_m8_w2_t1_s0_b2.5,A_n64_d2_m8_w2_t0_s0,A_n64_d2_m8_w2_t1_s0}.cnf
+python3 plots.py e2 e3; python3 report_tables.py > results/tables.md
 ```
-Solvers are built from GitHub master (`tools/`, git-ignored). Instances are
-deterministic given the grid entry, and are git-ignored because of their size.
+
+`tail_jobs.sh` runs E4 (big), the backdoor test and the clean re-timing in
+sequence. The solvers are built from GitHub master into `tools/` (git-ignored):
+
+```bash
+git clone https://github.com/arminbiere/cadical && (cd cadical && ./configure && make)
+git clone https://github.com/arminbiere/kissat && (cd kissat && ./configure && make)
+git clone https://github.com/berkeley-abc/abc && (cd abc && make ABC_USE_NO_READLINE=1 abc)
+```
+
+Instances are deterministic given the grid entry (`instance.name_of`). They are
+git-ignored because of their size.
+
+Files:
+- `model.py`: geometry, gate sets, windows, exact replacement samplers.
+- `csrc/search3.c`: C kernel for the w = 3 search.
+- `encode.py`: CNF and BLIF encoders.
+- `instance.py`: instance I/O.
+- `check.py`: independent validator.
+- `stats.py`, `e2_stats.py`: survival statistics.
+- `sweep.py`, `e4_sweep.py`: relational sweeping.
+- `e5_*.py`: weighted-variant analyses.
+- `run.py`: generation and solver runner.
+- `plots.py`, `report_tables.py`, `summarize.py`: output.

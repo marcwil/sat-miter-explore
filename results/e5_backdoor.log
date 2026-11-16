@@ -5,3 +5,16 @@
 {'instance': 'Aw_n64_d2_m8_w2_t0_s0_b2.5', 'k': 6, 'cubes': 64, 'solved': 64, 'total': 496.36, 'max': 27.1, 'top_degrees': [448, 362, 332, 332, 296, 224]}
 {'instance': 'Aw_n64_d2_m8_w2_t1_s0_b2.5', 'k': 0, 'cubes': 1, 'solved': 1, 'total': 17.51, 'max': 17.51, 'top_degrees': [445]}
 {'instance': 'Aw_n64_d2_m8_w2_t1_s0_b2.5', 'k': 1, 'cubes': 2, 'solved': 2, 'total': 33.53, 'max': 17.01, 'top_degrees': [445]}
+{'instance': 'Aw_n64_d2_m8_w2_t1_s0_b2.5', 'k': 2, 'cubes': 4, 'solved': 4, 'total': 63.44, 'max': 20.74, 'top_degrees': [445, 357]}
+{'instance': 'Aw_n64_d2_m8_w2_t1_s0_b2.5', 'k': 4, 'cubes': 16, 'solved': 16, 'total': 143.43, 'max': 20.99, 'top_degrees': [445, 357, 335, 332]}
+{'instance': 'Aw_n64_d2_m8_w2_t1_s0_b2.5', 'k': 6, 'cubes': 64, 'solved': 64, 'total': 555.97, 'max': 28.48, 'top_degrees': [445, 357, 335, 332, 296, 224]}
+{'instance': 'A_n64_d2_m8_w2_t0_s0', 'k': 0, 'cubes': 1, 'solved': 1, 'total': 4.56, 'max': 4.56, 'top_degrees': [32]}
+{'instance': 'A_n64_d2_m8_w2_t0_s0', 'k': 1, 'cubes': 2, 'solved': 2, 'total': 9.04, 'max': 4.7, 'top_degrees': [32]}
+{'instance': 'A_n64_d2_m8_w2_t0_s0', 'k': 2, 'cubes': 4, 'solved': 4, 'total': 18.76, 'max': 6.14, 'top_degrees': [32, 32]}
+{'instance': 'A_n64_d2_m8_w2_t0_s0', 'k': 4, 'cubes': 16, 'solved': 16, 'total': 76.22, 'max': 6.37, 'top_degrees': [32, 32, 32, 28]}
+{'instance': 'A_n64_d2_m8_w2_t0_s0', 'k': 6, 'cubes': 64, 'solved': 64, 'total': 322.58, 'max': 7.02, 'top_degrees': [32, 32, 32, 28, 28, 28]}
+{'instance': 'A_n64_d2_m8_w2_t1_s0', 'k': 0, 'cubes': 1, 'solved': 1, 'total': 5.79, 'max': 5.79, 'top_degrees': [32]}
+{'instance': 'A_n64_d2_m8_w2_t1_s0', 'k': 1, 'cubes': 2, 'solved': 2, 'total': 11.83, 'max': 5.92, 'top_degrees': [32]}
+{'instance': 'A_n64_d2_m8_w2_t1_s0', 'k': 2, 'cubes': 4, 'solved': 4, 'total': 25.38, 'max': 7.56, 'top_degrees': [32, 32]}
+{'instance': 'A_n64_d2_m8_w2_t1_s0', 'k': 4, 'cubes': 16, 'solved': 16, 'total': 85.26, 'max': 7.45, 'top_degrees': [32, 32, 32, 28]}
+{'instance': 'A_n64_d2_m8_w2_t1_s0', 'k': 6, 'cubes': 64, 'solved': 64, 'total': 350.64, 'max': 9.05, 'top_degrees': [32, 32, 32, 28, 28, 28]}
