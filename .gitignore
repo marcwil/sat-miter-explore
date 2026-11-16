@@ -2,3 +2,4 @@ tools
 results/instances/
 __pycache__/
 *.pyc
+csrc/*.so

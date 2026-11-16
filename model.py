@@ -14,8 +14,23 @@ Gate sets
   B   : T = (a,), K = (b,c), {a,b,c} local;  x_a ^= phi(x_b, x_c), phi depends on both
   Bw  : T = (a,), K = (b,c), {a,b} local, c chosen by weight
 """
-import itertools, math, random
+import itertools, math, random, os, ctypes, subprocess
 import numpy as np
+
+_FORCE_NUMPY = False
+def _load_lib():
+    here = os.path.dirname(os.path.abspath(__file__))
+    so = os.path.join(here, "csrc", "libsearch3.so")
+    try:
+        if not os.path.exists(so):
+            subprocess.run(["gcc", "-O2", "-shared", "-fPIC", "-o", so, os.path.join(here, "csrc", "search3.c")], check=True)
+        lib = ctypes.CDLL(so)
+        lib.search3.restype = ctypes.c_int
+        lib.search3.argtypes = [ctypes.c_int, ctypes.c_int, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_int]
+        return lib
+    except Exception:
+        return None
+_LIB = _load_lib()
 
 # two-input boolean functions phi(x_b, x_c) given as 4-bit truth tables
 # (bit index x_b + 2*x_c) that depend on both inputs: 10 of the 16.
@@ -449,6 +464,21 @@ def equivalent_xor_fast(F, Sw, geo, gset, w):
         for i1 in np.nonzero(hit)[0]:
             if np.array_equal(P[j[i1]], G[i1]):
                 sols.append((gates[i1], gates[j[i1]]))
+    elif _LIB is not None and not _FORCE_NUMPY:
+        Pi = np.ascontiguousarray(Pinv, dtype=np.int64)
+        Fc = np.ascontiguousarray(F, dtype=np.int64)
+        maxout = 1 << 20
+        out = np.empty(2 * maxout, dtype=np.int64)
+        cnt = _LIB.search3(N, k, Pi.ctypes.data, Fc.ctypes.data, out.ctypes.data, maxout)
+        assert cnt <= maxout
+        pairs = out[:2 * cnt].reshape(-1, 2)
+        if cnt:
+            H = Pinv[pairs[:, 1][:, None], G[pairs[:, 0]]]
+            hit, j = lookup(H)
+            for q in np.nonzero(hit)[0]:
+                if np.array_equal(P[j[q]], H[q]):
+                    i1, i3 = pairs[q]
+                    sols.append((gates[i1], gates[j[q]], gates[i3]))
     else:
         for i3 in range(k):
             H = Pinv[i3][G]
@@ -504,7 +534,7 @@ def rewrite_step(circ, geo, gset, w, rng, max_tries=200):
             if new == orig:
                 continue
         else:
-            alts = [c for c in cands if list(c) != orig]
+            alts = sorted(c for c in cands if list(c) != orig)  # canonical order
             if not alts:
                 continue
             new = list(alts[int(rng.integers(len(alts)))])
