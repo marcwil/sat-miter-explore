@@ -1,0 +1,1 @@
+[{"gset": "Aw", "n": 64, "m_per_n": 8, "w": 2, "tfrac": 1.0, "seed": 0, "beta": 2.5, "alpha": [0, 4], "pctrl": [1.0, 0.25]}, {"gset": "Bw", "n": 64, "m_per_n": 8, "w": 3, "tfrac": 1.0, "seed": 0, "beta": 2.5, "alpha": [0, 4], "pctrl": [1.0, 0.25]}]

@@ -4,7 +4,7 @@ import numpy as np
 import model, encode
 
 DEFAULTS = dict(gset="A", n=64, d=2, k_nb=8.0, m_per_n=8.0, w=2, tfrac=0.0,
-                beta=None, alpha=0.0, seed=0)
+                beta=None, alpha=0.0, pctrl=1.0, seed=0)
 
 
 def name_of(p):
@@ -13,12 +13,15 @@ def name_of(p):
         s += "_b%g" % p["beta"]
     if p.get("alpha"):
         s += "_a%g" % p["alpha"]
+    if p.get("pctrl", 1.0) != 1.0:
+        s += "_p%g" % p["pctrl"]
     return s
 
 
 def generate(**kw):
     p = dict(DEFAULTS); p.update(kw)
-    geo = model.Geometry(p["n"], p["d"], p["k_nb"], seed=1000 + p["seed"], beta=p["beta"], alpha=p["alpha"])
+    geo = model.Geometry(p["n"], p["d"], p["k_nb"], seed=1000 + p["seed"], beta=p["beta"], alpha=p["alpha"],
+                         pctrl=p["pctrl"])
     rng = np.random.default_rng(p["seed"])
     m = int(round(p["m_per_n"] * p["n"]))
     C0 = model.random_circuit(geo, p["gset"], m, rng)

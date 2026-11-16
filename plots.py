@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 SER = {"A": "#2a78d6", "Aw": "#eb6834", "B": "#1baf7a", "Bw": "#eda100"}
 TOOLC = {"cadical": "#2a78d6", "kissat": "#eb6834", "abc_cec": "#1baf7a", "abc_gcec": "#eda100",
-         "cadical_nocc": "#e87ba4", "kissat_nocc": "#6250d6", "sweep": "#008300"}
+         "cadical_nocc": "#6250d6", "kissat_nocc": "#e34948", "sweep": "#e87ba4"}
 LABEL = {"A": "A (random bijections)", "Aw": "A_w (weighted controls)", "B": "B (x_a ^= phi(x_b,x_c))",
          "Bw": "B_w (weighted control)"}
 OUT = "results/plots"
@@ -55,8 +55,13 @@ def plot_e2(csvfile):
     fig.tight_layout(); fig.savefig(os.path.join(OUT, "e2_survival.png"), dpi=150); plt.close(fig)
 
 
-def plot_e3(csvfiles, n, tools, fname, timeout):
-    d = pd.concat([pd.read_csv(f) for f in csvfiles])
+def load_sweep(f):
+    s = pd.read_csv(f)
+    return pd.DataFrame(dict(instance=s.instance, tool="sweep", status=s.status, time=s.t_total))
+
+
+def plot_e3(csvfiles, n, tools, fname, timeout, sweepfiles=()):
+    d = pd.concat([pd.read_csv(f) for f in csvfiles] + [load_sweep(f) for f in sweepfiles if os.path.exists(f)])
     meta = pd.DataFrame([parse_name(x) for x in d.instance])
     d = pd.concat([d.reset_index(drop=True), meta], axis=1)
     d = d[(d.n == n) & (d.beta.isna() | (d.beta == 2.5))]
@@ -86,3 +91,9 @@ if __name__ == "__main__":
     what = sys.argv[1:]
     if "e2" in what:
         plot_e2("results/e2_stats.csv")
+    if "e3" in what:
+        tools = ["cadical", "kissat", "abc_cec", "abc_gcec", "sweep"]
+        plot_e3(["results/e3_n64.csv"], 64, tools, "e3_n64.png", 300, ["results/e4_sweep_n64.csv"])
+        if os.path.exists("results/e3_big.csv"):
+            for n in (128, 256):
+                plot_e3(["results/e3_big.csv"], n, tools, "e3_n%d.png" % n, 300, ["results/e4_sweep_big.csv"])

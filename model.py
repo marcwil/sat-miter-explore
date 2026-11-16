@@ -76,7 +76,7 @@ def commute(g, h):
 
 # ---------------------------------------------------------------- geometry
 class Geometry:
-    def __init__(self, n, d, k_nb=8.0, seed=0, beta=None, alpha=0.0):
+    def __init__(self, n, d, k_nb=8.0, seed=0, beta=None, alpha=0.0, pctrl=1.0):
         rng = np.random.default_rng(seed)
         vol = {1: 2.0, 2: math.pi, 3: 4.0 * math.pi / 3.0}[d]
         self.n, self.d = n, d
@@ -99,6 +99,7 @@ class Geometry:
         if not self.triples:
             raise RuntimeError("no local triples; increase k_nb")
         self.alpha = alpha
+        self.pctrl = pctrl
         if beta is not None:
             u = rng.random(n)
             self.weight = u ** (-1.0 / (beta - 1.0))  # Pareto, P(W>w)=w^-(beta-1)
@@ -132,6 +133,8 @@ def random_gate(geo, gset, rng):
     if gset == "A":
         T = geo.triples[rng.integers(len(geo.triples))]
         return (tuple(int(x) for x in T), (), tuple(int(x) for x in rng.permutation(8)))
+    if gset in ("Aw", "Bw") and geo.pctrl < 1.0 and rng.random() >= geo.pctrl:
+        return random_gate(geo, gset[0], rng)  # uncontrolled / all-local gate
     if gset == "Aw":
         T = tuple(int(x) for x in geo.triples[rng.integers(len(geo.triples))])
         c = geo.sample_control(rng, T)
@@ -337,9 +340,9 @@ def shapes_for(geo, gset, Swires):
         for T in itertools.combinations(range(s), 3):
             if not geo.is_local([Swires[p] for p in T]):
                 continue
-            if gset == "A":
+            if gset == "A" or geo.pctrl < 1.0:
                 out.append((T, ()))
-            else:
+            if gset == "Aw":
                 for c in range(s):
                     if c not in T:
                         out.append((T, (c,)))

@@ -16,13 +16,14 @@ OUT = "results/e5_realism.json"
 
 
 def var_wires(n, C0, Ct, cnf, meta):
+    """variable -> (wire, circuit id, time in [0,1])"""
     vw = {}
     for i, v in enumerate(meta["xs"]):
-        vw[v] = i
-    for circ, recs in ((C0, meta["rec0"]), (Ct, meta["rect"])):
-        for g, (ins, outs) in zip(circ, recs):
+        vw[v] = (i, -1, 0.0)
+    for cid, (circ, recs) in enumerate(((C0, meta["rec0"]), (Ct, meta["rect"]))):
+        for gi, (g, (ins, outs)) in enumerate(zip(circ, recs)):
             for w, v in zip(g[0], outs):
-                vw[v] = w
+                vw[v] = (w, cid, (gi + 1) / len(circ))
     return vw
 
 
@@ -40,7 +41,7 @@ def bfs_dist(adj, src, allowed):
     return dist
 
 
-def analyse(path, cutoff=None, nsrc=30, seed=0):
+def analyse(path, top_frac=0.02, nsrc=40, seed=0):
     inst = instance.load(path)
     n = inst["params"]["n"]
     cnf, meta = encode.miter(n, inst["C0"], inst["Ct"])
@@ -58,23 +59,29 @@ def analyse(path, cutoff=None, nsrc=30, seed=0):
     circ_vars = [v for v in vw]
 
     def corr(allowed):
-        src = rng.choice([v for v in circ_vars if v in allowed], size=nsrc, replace=False)
+        src = rng.choice([v for v in circ_vars if v in allowed and vw[v][1] >= 0], size=nsrc, replace=False)
         gd, td = [], []
         for s in src:
             dist = bfs_dist(adj, int(s), allowed)
+            ws, cs, ts = vw[int(s)]
             for u, dd in dist.items():
                 if u in vw and u != s:
-                    diff = np.abs(pts[vw[int(s)]] - pts[vw[u]]); diff = np.minimum(diff, 1 - diff)
+                    wu, cu, tu = vw[u]
+                    if cu != cs or abs(tu - ts) > 0.05:  # same circuit, close in time
+                        continue
+                    diff = np.abs(pts[ws] - pts[wu]); diff = np.minimum(diff, 1 - diff)
                     gd.append(dd); td.append(float(np.sqrt((diff ** 2).sum())))
         gd, td = np.array(gd), np.array(td)
-        reach = len(gd) / (nsrc * (len(allowed) - 1))
+        reach = 0.0
         return dict(spearman=float(_spearman(gd, td)), mean_hops=float(gd.mean()), reach=float(reach))
 
     allv = set(adj)
     res = dict(instance=os.path.basename(path), degs=sorted(deg.values()),
                max_deg=max(deg.values()), whole=corr(allv))
-    if cutoff is not None:
+    if top_frac:
+        cutoff = np.quantile([deg[v] for v in allv], 1 - top_frac)
         kept = {v for v in allv if deg[v] <= cutoff}
+        res["cutoff"] = float(cutoff)
         res["removed"] = len(allv) - len(kept)
         res["hubs_removed"] = corr(kept)
     return res
@@ -86,22 +93,20 @@ def _spearman(a, b):
 
 
 if __name__ == "__main__":
-    d = sys.argv[1]
     out = {}
-    # cutoff from the unweighted model: 99th percentile of A degrees
-    base = analyse(os.path.join(d, "A_n64_d2_m8_w2_t1_s0.json"))
-    cutoff = float(np.percentile(base["degs"], 99))
+    dirs = sys.argv[1:]
     names = ["A_n64_d2_m8_w2_t1_s0", "B_n64_d2_m8_w3_t1_s0"] + \
-        ["%s_n64_d2_m8_w%d_t1_s0_b%s" % (g, w, b) for g, w in (("Aw", 2), ("Bw", 3)) for b in ("2.2", "2.5", "3")]
+        ["%s_n64_d2_m8_w%d_t1_s0_b%s" % (g, w, b) for g, w in (("Aw", 2), ("Bw", 3)) for b in ("2.2", "2.5", "3")] + \
+        ["%s_n64_d2_m8_w%d_t1_s0_b2.5%s" % (g, w, x) for g, w in (("Aw", 2), ("Bw", 3)) for x in ("_p0.25", "_a4", "_a4_p0.25")]
     for nm in names:
-        p = os.path.join(d, nm + ".json")
-        if not os.path.exists(p):
+        cands = [os.path.join(dd, nm + ".json") for dd in dirs if os.path.exists(os.path.join(dd, nm + ".json"))]
+        if not cands:
             continue
-        r = analyse(p, cutoff=cutoff)
+        p = cands[0]
+        r = analyse(p)
         degs = np.array(r.pop("degs"))
         r["deg_quantiles"] = {q: float(np.percentile(degs, q)) for q in (50, 90, 99, 99.9, 100)}
         r["deg_hist"] = {int(k): int(v) for k, v in zip(*np.unique(degs, return_counts=True))}
         out[nm] = r
         print(json.dumps({k: v for k, v in r.items() if k != "deg_hist"}), flush=True)
-    out["cutoff"] = cutoff
     json.dump(out, open(OUT, "w"), indent=1)

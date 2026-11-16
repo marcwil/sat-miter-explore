@@ -1,0 +1,10 @@
+++ dirname ./tail_jobs.sh
++ cd .
++ grep -q 'big solve done' /tmp/claude-0/-home-user/0803fc23-5353-54b1-8984-82932e33ad80/tasks/bllb7nwy0.output
++ sleep 20
++ grep -q 'big solve done' /tmp/claude-0/-home-user/0803fc23-5353-54b1-8984-82932e33ad80/tasks/bllb7nwy0.output
++ sleep 20
++ grep -q 'big solve done' /tmp/claude-0/-home-user/0803fc23-5353-54b1-8984-82932e33ad80/tasks/bllb7nwy0.output
++ sleep 20
++ grep -q 'big solve done' /tmp/claude-0/-home-user/0803fc23-5353-54b1-8984-82932e33ad80/tasks/bllb7nwy0.output
++ sleep 20

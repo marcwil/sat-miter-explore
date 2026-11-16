@@ -24,3 +24,13 @@ Bw_n64_d2_m8_w3_t0_s2_b3 t=0/0 gen=0.0s
 Aw_n64_d2_m8_w2_t3_s2_b3 t=1536/1536 gen=3.5s
 Bw_n64_d2_m8_w3_t1_s0_b3 t=512/512 gen=7.9s
 Bw_n64_d2_m8_w3_t1_s0_b2.2 t=512/512 gen=8.5s
+Bw_n64_d2_m8_w3_t1_s1_b2.2 t=512/512 gen=9.7s
+Bw_n64_d2_m8_w3_t1_s1_b3 t=512/512 gen=9.9s
+Bw_n64_d2_m8_w3_t1_s2_b2.2 t=512/512 gen=8.0s
+Bw_n64_d2_m8_w3_t1_s2_b3 t=512/512 gen=9.3s
+Bw_n64_d2_m8_w3_t3_s0_b2.2 t=1536/1536 gen=31.8s
+Bw_n64_d2_m8_w3_t3_s0_b3 t=1536/1536 gen=30.1s
+Bw_n64_d2_m8_w3_t3_s1_b2.2 t=1536/1536 gen=30.9s
+Bw_n64_d2_m8_w3_t3_s1_b3 t=1536/1536 gen=31.9s
+Bw_n64_d2_m8_w3_t3_s2_b2.2 t=1536/1536 gen=26.2s
+Bw_n64_d2_m8_w3_t3_s2_b3 t=1536/1536 gen=27.0s
