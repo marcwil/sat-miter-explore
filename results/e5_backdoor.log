@@ -1,0 +1,7 @@
+{'instance': 'Aw_n64_d2_m8_w2_t0_s0_b2.5', 'k': 0, 'cubes': 1, 'solved': 1, 'total': 15.65, 'max': 15.65, 'top_degrees': [448]}
+{'instance': 'Aw_n64_d2_m8_w2_t0_s0_b2.5', 'k': 1, 'cubes': 2, 'solved': 2, 'total': 28.99, 'max': 15.55, 'top_degrees': [448]}
+{'instance': 'Aw_n64_d2_m8_w2_t0_s0_b2.5', 'k': 2, 'cubes': 4, 'solved': 4, 'total': 66.24, 'max': 18.56, 'top_degrees': [448, 362]}
+{'instance': 'Aw_n64_d2_m8_w2_t0_s0_b2.5', 'k': 4, 'cubes': 16, 'solved': 16, 'total': 115.55, 'max': 14.3, 'top_degrees': [448, 362, 332, 332]}
+{'instance': 'Aw_n64_d2_m8_w2_t0_s0_b2.5', 'k': 6, 'cubes': 64, 'solved': 64, 'total': 496.36, 'max': 27.1, 'top_degrees': [448, 362, 332, 332, 296, 224]}
+{'instance': 'Aw_n64_d2_m8_w2_t1_s0_b2.5', 'k': 0, 'cubes': 1, 'solved': 1, 'total': 17.51, 'max': 17.51, 'top_degrees': [445]}
+{'instance': 'Aw_n64_d2_m8_w2_t1_s0_b2.5', 'k': 1, 'cubes': 2, 'solved': 2, 'total': 33.53, 'max': 17.01, 'top_degrees': [445]}
