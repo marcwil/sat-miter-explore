@@ -15,6 +15,10 @@ def name_of(p):
         s += "_a%g" % p["alpha"]
     if p.get("pctrl", 1.0) != 1.0:
         s += "_p%g" % p["pctrl"]
+    if p.get("mode"):
+        s += "_P%s" % p["mode"]
+    if p.get("heavy_q"):
+        s += "_h%g" % p["heavy_q"]
     return s
 
 
