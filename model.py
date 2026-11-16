@@ -426,6 +426,39 @@ def equivalent_xor(F, Swires, geo, gset, w, cap=None):
     return sols
 
 
+def equivalent_xor_fast(F, Sw, geo, gset, w):
+    """Same as equivalent_xor but vectorised with 64-bit row hashes (verified exactly)."""
+    gates = xor_gates_on(geo, gset, Sw)
+    P = gate_perms(gates, Sw).astype(np.int64)
+    k, N = P.shape
+    Pinv = np.empty_like(P)
+    Pinv[np.arange(k)[:, None], P] = np.arange(N)[None, :]
+    R = np.random.default_rng(7).integers(1, 2**62, size=N, dtype=np.int64).astype(np.uint64)
+    hP = (P.astype(np.uint64) * R).sum(1)
+    order = np.argsort(hP); hs = hP[order]
+    def lookup(rows):
+        h = (rows.astype(np.uint64) * R).sum(1)
+        idx = np.searchsorted(hs, h)
+        idx[idx >= len(hs)] = 0
+        hit = hs[idx] == h
+        return hit, order[idx]
+    sols = []
+    G = F[Pinv]  # row i1: F o g1^-1
+    if w == 2:
+        hit, j = lookup(G)
+        for i1 in np.nonzero(hit)[0]:
+            if np.array_equal(P[j[i1]], G[i1]):
+                sols.append((gates[i1], gates[j[i1]]))
+    else:
+        for i3 in range(k):
+            H = Pinv[i3][G]
+            hit, j = lookup(H)
+            for i1 in np.nonzero(hit)[0]:
+                if np.array_equal(P[j[i1]], H[i1]):
+                    sols.append((gates[i1], gates[j[i1]], gates[i3]))
+    return sols
+
+
 # ---------------------------------------------------------------- rewriting process
 def window_wires(gates):
     ws = set()
@@ -442,7 +475,7 @@ def candidates(circ_window, geo, gset):
     if gset in ("A", "Aw"):
         assert w == 2
         return Swires, F, equivalent_2gate(F, Swires, geo, gset)
-    sols = equivalent_xor(F, Swires, geo, gset, w)
+    sols = equivalent_xor_fast(F, Swires, geo, gset, w)
     return Swires, F, sols
 
 

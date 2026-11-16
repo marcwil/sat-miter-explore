@@ -1,0 +1,376 @@
+{
+ "A_w2": {
+  "windows": 2000,
+  "n_other_shapes_frac_pos": 0.0185,
+  "n_other_shapes_mean": 0.031,
+  "gauge_log_mean": 1.527385628403029,
+  "frac_no_alternative": 0.0,
+  "frac_controlled_gauge": 0.0,
+  "shared_targets_hist": {
+   "1": 1475,
+   "2": 476,
+   "3": 49
+  },
+  "examples_other": [
+   {
+    "s": 5,
+    "shared_targets": 1,
+    "shared_any": 1,
+    "gauge_log": 0.693147180559945,
+    "gauge_contexts": 1,
+    "gauge_msize": 2,
+    "n_other_shapes": 1,
+    "other_shapes": [
+     [
+      [
+       [
+        0,
+        2,
+        4
+       ],
+       []
+      ],
+      [
+       [
+        1,
+        2,
+        3
+       ],
+       []
+      ]
+     ]
+    ]
+   },
+   {
+    "s": 5,
+    "shared_targets": 1,
+    "shared_any": 1,
+    "gauge_log": 0.693147180559945,
+    "gauge_contexts": 1,
+    "gauge_msize": 2,
+    "n_other_shapes": 1,
+    "other_shapes": [
+     [
+      [
+       [
+        0,
+        2,
+        4
+       ],
+       []
+      ],
+      [
+       [
+        0,
+        1,
+        3
+       ],
+       []
+      ]
+     ]
+    ]
+   },
+   {
+    "s": 4,
+    "shared_targets": 2,
+    "shared_any": 2,
+    "gauge_log": 3.178053830347945,
+    "gauge_contexts": 1,
+    "gauge_msize": 4,
+    "n_other_shapes": 1,
+    "other_shapes": [
+     [
+      [
+       [
+        0,
+        1,
+        2
+       ],
+       []
+      ],
+      [
+       [
+        0,
+        1,
+        3
+       ],
+       []
+      ]
+     ]
+    ]
+   },
+   {
+    "s": 4,
+    "shared_targets": 2,
+    "shared_any": 2,
+    "gauge_log": 3.178053830347945,
+    "gauge_contexts": 1,
+    "gauge_msize": 4,
+    "n_other_shapes": 1,
+    "other_shapes": [
+     [
+      [
+       [
+        0,
+        1,
+        3
+       ],
+       []
+      ],
+      [
+       [
+        1,
+        2,
+        3
+       ],
+       []
+      ]
+     ]
+    ]
+   },
+   {
+    "s": 4,
+    "shared_targets": 2,
+    "shared_any": 2,
+    "gauge_log": 3.178053830347945,
+    "gauge_contexts": 1,
+    "gauge_msize": 4,
+    "n_other_shapes": 2,
+    "other_shapes": [
+     [
+      [
+       [
+        0,
+        2,
+        3
+       ],
+       []
+      ],
+      [
+       [
+        0,
+        1,
+        3
+       ],
+       []
+      ]
+     ],
+     [
+      [
+       [
+        1,
+        2,
+        3
+       ],
+       []
+      ],
+      [
+       [
+        0,
+        1,
+        2
+       ],
+       []
+      ]
+     ]
+    ]
+   }
+  ],
+  "seconds": 0.819490909576416
+ },
+ "Aw_w2": {
+  "windows": 2000,
+  "n_other_shapes_frac_pos": 0.0015,
+  "n_other_shapes_mean": 0.0015,
+  "gauge_log_mean": 1.0402634443437542,
+  "frac_no_alternative": 0.3425,
+  "frac_controlled_gauge": 0.413,
+  "shared_targets_hist": {
+   "0": 688,
+   "1": 993,
+   "3": 24,
+   "2": 295
+  },
+  "examples_other": [
+   {
+    "s": 7,
+    "shared_targets": 0,
+    "shared_any": 1,
+    "gauge_log": 0.0,
+    "gauge_contexts": 2,
+    "gauge_msize": 1,
+    "n_other_shapes": 1,
+    "other_shapes": [
+     [
+      [
+       [
+        2,
+        4,
+        6
+       ],
+       [
+        1
+       ]
+      ],
+      [
+       [
+        0,
+        3,
+        5
+       ],
+       [
+        4
+       ]
+      ]
+     ]
+    ]
+   },
+   {
+    "s": 7,
+    "shared_targets": 0,
+    "shared_any": 1,
+    "gauge_log": 0.0,
+    "gauge_contexts": 2,
+    "gauge_msize": 1,
+    "n_other_shapes": 1,
+    "other_shapes": [
+     [
+      [
+       [
+        0,
+        2,
+        5
+       ],
+       [
+        6
+       ]
+      ],
+      [
+       [
+        3,
+        4,
+        6
+       ],
+       [
+        1
+       ]
+      ]
+     ]
+    ]
+   },
+   {
+    "s": 7,
+    "shared_targets": 0,
+    "shared_any": 1,
+    "gauge_log": 0.0,
+    "gauge_contexts": 2,
+    "gauge_msize": 1,
+    "n_other_shapes": 1,
+    "other_shapes": [
+     [
+      [
+       [
+        0,
+        2,
+        4
+       ],
+       [
+        6
+       ]
+      ],
+      [
+       [
+        1,
+        3,
+        6
+       ],
+       [
+        5
+       ]
+      ]
+     ]
+    ]
+   }
+  ],
+  "seconds": 2.7602286338806152
+ },
+ "B_w2": {
+  "windows": 2000,
+  "n_alt_frac_pos": 0.088,
+  "n_alt_mean": 0.088,
+  "perm_frac_pos": 0.043,
+  "perm_mean": 0.043,
+  "sameskel_frac_pos": 0.0,
+  "sameskel_mean": 0.0,
+  "newskel_frac_pos": 0.045,
+  "newskel_mean": 0.045,
+  "n_alt_hist": {
+   "0": 1824,
+   "1": 176
+  },
+  "seconds": 5.6863627433776855
+ },
+ "B_w3": {
+  "windows": 400,
+  "n_alt_frac_pos": 0.65,
+  "n_alt_mean": 2.7575,
+  "perm_frac_pos": 0.5125,
+  "perm_mean": 0.5625,
+  "sameskel_frac_pos": 0.25,
+  "sameskel_mean": 0.37,
+  "newskel_frac_pos": 0.2275,
+  "newskel_mean": 1.825,
+  "n_alt_hist": {
+   "0": 140,
+   "1": 162,
+   "2": 33,
+   "7": 22,
+   "5": 11,
+   "15": 2,
+   "3": 21,
+   "19": 1,
+   "9": 5,
+   "11": 1,
+   "20": 2
+  },
+  "seconds": 32.918895959854126
+ },
+ "Bw_w2": {
+  "windows": 2000,
+  "n_alt_frac_pos": 0.024,
+  "n_alt_mean": 0.024,
+  "perm_frac_pos": 0.0115,
+  "perm_mean": 0.0115,
+  "sameskel_frac_pos": 0.0,
+  "sameskel_mean": 0.0,
+  "newskel_frac_pos": 0.0125,
+  "newskel_mean": 0.0125,
+  "n_alt_hist": {
+   "0": 1952,
+   "1": 48
+  },
+  "seconds": 5.474854946136475
+ },
+ "Bw_w3": {
+  "windows": 400,
+  "n_alt_frac_pos": 0.5725,
+  "n_alt_mean": 0.945,
+  "perm_frac_pos": 0.48,
+  "perm_mean": 0.5025,
+  "sameskel_frac_pos": 0.1825,
+  "sameskel_mean": 0.2225,
+  "newskel_frac_pos": 0.1125,
+  "newskel_mean": 0.22,
+  "n_alt_hist": {
+   "0": 171,
+   "1": 177,
+   "7": 9,
+   "3": 29,
+   "5": 1,
+   "2": 11,
+   "13": 1,
+   "11": 1
+  },
+  "seconds": 39.741740465164185
+ }
+}
