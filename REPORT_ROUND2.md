@@ -22,8 +22,9 @@ In this round:
      ≤ 3.4 (1.2–3.4 at t ≥ 10m). For unrelated circuits it is 21 (n = 32) to
      30 (n = 64).
    - At n = 32 it flattens by t ≈ 10m and stays flat up to 100m. At n = 64 it
-     is the same at 10m and 30m. At n = 128 and t = 10m it is 2.0, inside the
-     n = 64 range, so there is no visible growth with n.
+     is the same at 10m and 30m. At n = 128 it is still rising slowly (2.05 at
+     10m, 2.50 at 30m), but only up to the n = 64 level. There is no sign yet
+     that the plateau grows with n.
    - Gates keep changing (only 32% of C_0's gates are left verbatim at t = 100m),
      but the correspondence to C_0 stays local.
    - Letting inflation grow C_t to 3m does not change this (width 1.65 at 30m).
@@ -160,6 +161,7 @@ n = 64, m = 512, means over 2 seeds:
 | 64 | knead | 30 | 512 | 3.36 | 73% | 12.0 | 0.52 |
 | 128 | ik | 3 | 1280 | 1.36 | 96% | 6.6 | 0.51 |
 | 128 | ik | 10 | 1280 | 2.05 | 89% | 10.8 | 0.45 |
+| 128 | ik | 30 | 1280 | 2.50 | 83% | 12.6 | 0.42 |
 | 128 | knead | 3 | 1024 | 1.50 | 94% | 8.3 | 0.57 |
 | 128 | knead | 10 | 1024 | 2.02 | 87% | 10.7 | 0.55 |
 
@@ -168,9 +170,12 @@ and 29.5 (n = 64), with 16–17% of wires at width ≤ 3.
 
 - The width reaches a plateau. At n = 32 it is flat from 10m to 100m, for
   both `knead` and `ik`. At n = 64 it is the same at 10m and 30m.
-- **The plateau shows no growth with n.** n = 128 at t = 10m (2.0) lies inside
-  the n = 64 range (1.3–3.3 across seeds). n = 32 sits slightly lower,
-  possibly a small-torus effect.
+- **No growth with n is visible, but n = 128 has not settled yet.** At
+  n = 128, `ik` rises from 2.05 (t = 10m) to 2.50 (t = 30m). That is the
+  level where n = 64 levelled off (2.6–2.85, seed 0). It is consistent with
+  the same plateau reached more slowly, but slow continued growth is not
+  ruled out; that needs t = 100m at n = 128. n = 32 sits lower, possibly a
+  small-torus effect.
 - Meanwhile the circuit keeps changing: gates surviving verbatim fall
   steadily, to 32% at t = 100m.
 - With 3× inflation, the width rises slowly (1.32 → 1.65 from 3m to 30m),
