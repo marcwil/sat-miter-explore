@@ -29,6 +29,21 @@ def _lib():
 
 
 LIB = _lib()
+
+
+def _libfp():
+    so = os.path.join(HERE, "csrc", "libprod4fp.so")
+    if not os.path.exists(so):
+        subprocess.run(["gcc", "-O2", "-shared", "-fPIC", "-o", so, os.path.join(HERE, "csrc", "prod4fp.c")], check=True)
+    lib = ctypes.CDLL(so)
+    lib.prod4fp.restype = ctypes.c_int64
+    lib.prod4fp.argtypes = [ctypes.c_int, ctypes.c_int] + [ctypes.c_void_p] * 4 + [ctypes.c_int] + [ctypes.c_void_p] * 6
+    return lib
+
+
+LIBFP = _libfp()
+SAMPLER = "fp"   # "fp" (fingerprinted kernel) or "full" (kernel used for the first round-2 grid)
+NS = 16
 RNG_HASH = np.random.default_rng(12345).integers(1, 2**63 - 1, size=1 << 12, dtype=np.int64).astype(np.uint64)
 
 
@@ -89,7 +104,25 @@ class Solutions:
                 if j is not None:
                     self.list.append((gates[i1], gates[j], gates[i3]))
             self.total = len(self.list)
+        elif L == 4 and SAMPLER == "fp":
+            Pinv = invert(P)
+            P32 = np.ascontiguousarray(P, dtype=np.int32)
+            Pi32 = np.ascontiguousarray(Pinv, dtype=np.int32)
+            F32 = np.ascontiguousarray(F, dtype=np.int32)
+            R = np.ascontiguousarray(RNG_HASH[:NS])
+            xs = np.ascontiguousarray(np.random.default_rng(N).choice(N, size=min(NS, N), replace=False), dtype=np.int32)
+            K = k * k
+            self.rows = np.empty(K, dtype=np.int32)
+            self.hs = np.empty(K, dtype=np.uint64)
+            self.qstart = np.empty(K, dtype=np.int64)
+            self.qlen = np.empty(K, dtype=np.int32)
+            self.qcount = np.empty(K, dtype=np.int32)
+            self.total = int(LIBFP.prod4fp(N, k, P32.ctypes.data, Pi32.ctypes.data, F32.ctypes.data, R.ctypes.data,
+                                           len(xs), xs.ctypes.data, self.rows.ctypes.data, self.hs.ctypes.data,
+                                           self.qstart.ctypes.data, self.qlen.ctypes.data, self.qcount.ctypes.data))
+            self.fp = True
         elif L == 4:
+            self.fp = False
             Pinv = invert(P)
             P32 = np.ascontiguousarray(P, dtype=np.int32)
             Pi32 = np.ascontiguousarray(Pinv, dtype=np.int32)
@@ -118,7 +151,17 @@ class Solutions:
         for _ in range(10):
             c = self.qcount.astype(np.float64)
             r = int(rng.choice(len(c), p=c / c.sum()))
-            r2 = int(self.rows[self.qstart[r] + rng.integers(self.qcount[r])])
+            if self.fp:
+                i, j = divmod(r, k)
+                q = self.F[invert(self.P[[i]])[0][invert(self.P[[j]])[0]]]  # q[x] = F[g_i^-1[g_j^-1[x]]]
+                cand = self.rows[self.qstart[r]: self.qstart[r] + self.qlen[r]]
+                ii, jj = np.divmod(cand, k)
+                prods = self.P[jj[:, None], self.P[ii]]
+                true = cand[np.all(prods == q[None, :], axis=1)]
+                assert len(true) == self.qcount[r]
+                r2 = int(true[rng.integers(len(true))])
+            else:
+                r2 = int(self.rows[self.qstart[r] + rng.integers(self.qcount[r])])
             i, j = divmod(r, k)
             i2, j2 = divmod(r2, k)
             seq = [self.gates[i], self.gates[j], self.gates[i2], self.gates[j2]]
@@ -174,7 +217,7 @@ def try_step(circ, geo, gset, kind, rng, heavy=frozenset(), smax=7):
     return new_circ, rec
 
 
-def process(circ, geo, gset, t, rng, mode, heavy=frozenset(), max_tries=200):
+def process(circ, geo, gset, t, rng, mode, heavy=frozenset(), max_tries=200, target=None):
     """mode:
       'w3'        : round-1 process (3 -> 3)
       'knead'     : 4 -> 4 only (size fixed)
@@ -185,7 +228,8 @@ def process(circ, geo, gset, t, rng, mode, heavy=frozenset(), max_tries=200):
     tr = []
     tries = 0
     stats = dict(attempts=0, inflate=0, deflate=0, knead=0, w3=0)
-    target = int(1.25 * m0)
+    if target is None:
+        target = int(1.25 * m0)
     while len(tr) < t and tries < max_tries * max(1, t):
         if mode in ("w3", "knead"):
             kind = mode

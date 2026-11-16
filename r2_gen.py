@@ -30,34 +30,46 @@ def generate(p):
         g = model.random_gate(geo, q["gset"], rng)
         if g[0][0] not in heavy:
             C0.append(g)
-    t = int(round(q["tfrac"] * m))
-    t0 = time.time()
-    Ct, tr, st = mix.process(C0, geo, q["gset"], t, rng, q["mode"], heavy)
-    q.update(m=m, t=t, t_done=len(tr), gen_time=time.time() - t0, **{"stat_" + k: v for k, v in st.items()},
-             heavy=sorted(heavy))
-    inst = dict(params=q, geo=dict(pts=geo.pts.tolist(), r=geo.r, weight=geo.weight.tolist()),
-                C0=C0, Ct=Ct, transcript=[{k: v for k, v in r.items() if k != "kind"} | {"kind": r["kind"]} for r in tr])
-    return inst
+    mix.SAMPLER = q.get("sampler", "fp")
+    snaps = sorted(q.get("snap", [q["tfrac"]]))
+    out, Ct, tr, done, t0 = [], C0, [], 0, time.time()
+    agg = {}
+    for sf in snaps:
+        t = int(round(sf * m))
+        Ct, tr_new, st = mix.process(Ct, geo, q["gset"], t - done, rng, q["mode"], heavy, target=int(1.25 * m))
+        tr = tr + tr_new; done = len(tr)
+        for k2, v in st.items():
+            agg[k2] = agg.get(k2, 0) + v if k2 != "final_m" else v
+        qq = dict(q, tfrac=sf, m=m, t=t, t_done=len(tr), gen_time=time.time() - t0,
+                  **{"stat_" + k2: v for k2, v in agg.items()}, heavy=sorted(heavy))
+        qq.pop("snap", None)
+        out.append(dict(params=qq, geo=dict(pts=geo.pts.tolist(), r=geo.r, weight=geo.weight.tolist()),
+                        C0=C0, Ct=Ct, transcript=list(tr)))
+    return out
 
 
 def _job(args):
     p, outdir = args
     sys.path.insert(0, HERE)
     import instance
-    nm = instance.name_of(dict(instance.DEFAULTS, **p, w={"w3": 3, "knead": 4, "ik": 24}[p["mode"]]))
+    last = dict(p, tfrac=max(p.get("snap", [p["tfrac"]])))
+    last.pop("snap", None); last.pop("sampler", None)
+    nm = instance.name_of(dict(instance.DEFAULTS, **last, w={"w3": 3, "knead": 4, "ik": 24}[p["mode"]]))
     if os.path.exists(os.path.join(outdir, nm + ".json")):
         return nm, "exists"
-    inst = generate(p)
-    nm = instance.save(inst, outdir)
-    q = inst["params"]
-    return nm, "t=%d/%d m_t=%d attempts=%d gen=%.0fs" % (q["t_done"], q["t"], q["stat_final_m"], q["stat_attempts"], q["gen_time"])
+    msgs = []
+    for inst in generate(p):
+        nm = instance.save(inst, outdir)
+        q = inst["params"]
+        msgs.append("%s t=%d/%d m_t=%d attempts=%d gen=%.0fs" % (nm, q["t_done"], q["t"], q["stat_final_m"], q["stat_attempts"], q["gen_time"]))
+    return "\n".join(msgs), ""
 
 
 def expand(grids):
     import itertools
     out = []
     for g in grids:
-        keys = list(g); vals = [v if isinstance(v, list) else [v] for v in g.values()]
+        keys = list(g); vals = [[v] if (k == "snap" or not isinstance(v, list)) else v for k, v in g.items()]
         out += [dict(zip(keys, c)) for c in itertools.product(*vals)]
     return out
 
@@ -68,7 +80,7 @@ if __name__ == "__main__":
     os.makedirs(outdir, exist_ok=True)
     plist = expand(grids if isinstance(grids, list) else [grids])
     # longest jobs first
-    plist.sort(key=lambda p: -p["tfrac"] * p["n"] * (3 if p["mode"] == "knead" else 1))
+    plist.sort(key=lambda p: -max(p.get("snap", [p["tfrac"]])) * p["n"] * (3 if p["mode"] == "knead" else 1))
     with ProcessPoolExecutor(jobs) as ex:
         for f in as_completed([ex.submit(_job, (p, outdir)) for p in plist]):
             print(*f.result(), flush=True)

@@ -1,0 +1,1 @@
+[{"gset": "B", "n": 64, "m_per_n": 8, "mode": ["w3", "knead", "ik"], "tfrac": [0.3, 1.0, 3.0, 10.0], "seed": [0, 1], "sampler": "full"}]

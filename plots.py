@@ -97,3 +97,31 @@ if __name__ == "__main__":
         if os.path.exists("results/e3_big.csv"):
             for n in (128, 256):
                 plot_e3(["results/e3_big.csv"], n, tools, "e3_n%d.png" % n, 300, ["results/e4_sweep_big.csv"])
+
+
+R2C = {"w3": "#2a78d6", "knead": "#eb6834", "ik": "#1baf7a"}
+R2L = {"w3": "w=3 same size (round 1)", "knead": "knead 4 -> 4", "ik": "inflate 2->4 + knead + deflate"}
+
+
+def plot_r2_width(csvfile, fname="r2_width.png", null=None):
+    d = pd.read_csv(csvfile)
+    d = d[d.gset == "B"]
+    cols = [("wire_mean", "mean wire width (C_0 cut wires a C_t wire depends on)"),
+            ("wire_le3", "fraction of C_t wires with width <= 3"),
+            ("gate_frac", "C_0 gates surviving verbatim"),
+            ("rel_frac", "gate groups with a bijective partner")]
+    fig, axes = plt.subplots(1, 4, figsize=(15, 3.6))
+    for ax, (col, title) in zip(axes, cols):
+        for mode, c in R2C.items():
+            s = d[d["mode"] == mode].groupby("tfrac")[col].agg(["mean", "min", "max"]).reset_index()
+            if s.empty:
+                continue
+            ax.plot(s.tfrac, s["mean"], "-o", color=c, label=R2L[mode])
+            ax.fill_between(s.tfrac, s["min"], s["max"], color=c, alpha=0.12, linewidth=0)
+        if null and col in null:
+            ax.axhline(null[col], color="#8a8984", ls="--", lw=1, label="unrelated circuit (null)")
+        ax.set_xscale("log"); ax.set_xticks([0.3, 1, 3, 10]); ax.set_xticklabels(["0.3", "1", "3", "10"])
+        ax.set_xlabel("rewrite steps t / gates m"); ax.set_title(title, fontsize=9)
+    axes[0].legend(frameon=False, fontsize=8)
+    fig.suptitle("gate set B, n = 64, m = 512", fontsize=10)
+    fig.tight_layout(); fig.savefig(os.path.join(OUT, fname), dpi=150); plt.close(fig)
