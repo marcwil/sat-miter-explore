@@ -148,3 +148,23 @@ def plot_r2_long(csvfile, fname="r2_long.png", nulls={32: (20.7, 0.17), 64: (29.
     axes[0].legend(frameon=False, fontsize=7)
     fig.suptitle("long runs, gate set B, m = 8n (one seed)", fontsize=10)
     fig.tight_layout(); fig.savefig(os.path.join(OUT, fname), dpi=150); plt.close(fig)
+
+
+def plot_r3_scaling(bcsv="results/r3_B_width.csv", calib="results/r3_calibration.csv", fname="r3_scaling.png"):
+    d = pd.read_csv(bcsv)
+    c = pd.read_csv(calib)
+    fig, axes = plt.subplots(1, 2, figsize=(10, 3.8))
+    for ax, col, title in ((axes[0], "lcut_max_mean", "max width per cut (mean over 12 cuts)"),
+                           (axes[1], "lcut_max_max", "worst cut (max over 12 cuts)")):
+        g = d.groupby("n")[col]
+        ax.scatter(d.n * np.exp(np.random.default_rng(0).normal(0, 0.03, len(d))), d[col], s=14, color="#eb6834", alpha=0.6)
+        ax.plot(g.mean().index, g.mean().values, "-o", color="#eb6834", label="knead, t = 10m (each dot: one C_0 x walk)")
+        a = c[c.label.str.startswith("A_n") & (c.P == 256)].groupby("n")[col].mean()
+        ax.plot(a.index, a.values, "-s", color="#2a78d6", label="gauge-only (round-1 A, t = 10m)")
+        nl = c[c.label.str.startswith("null") & (c.P == 256)].groupby("n")[col].mean()
+        ax.plot(nl.index, nl.values, "--", color="#8a8984", label="unrelated circuit (null)")
+        ax.set_xscale("log", base=2); ax.set_yscale("log", base=2)
+        ax.set_xlabel("n (wires)"); ax.set_title(title, fontsize=10)
+    axes[0].legend(frameon=False, fontsize=7)
+    fig.suptitle("corrected correspondence width (layer cuts), gate set B, m = 8n", fontsize=10)
+    fig.tight_layout(); fig.savefig(os.path.join(OUT, fname), dpi=150); plt.close(fig)

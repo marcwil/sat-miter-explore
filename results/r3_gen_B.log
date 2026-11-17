@@ -1,0 +1,25 @@
+B_n128_d2_m8_w4_t10_s10_Pknead_ws1 t=10240/10240 m_t=1024 attempts=11642 gen=1264s 
+B_n128_d2_m8_w4_t10_s10_Pknead_ws0 t=10240/10240 m_t=1024 attempts=11598 gen=1278s 
+B_n128_d2_m8_w4_t10_s11_Pknead_ws1 t=10240/10240 m_t=1024 attempts=12410 gen=1437s 
+B_n128_d2_m8_w4_t10_s11_Pknead_ws0 t=10240/10240 m_t=1024 attempts=12566 gen=1438s 
+B_n128_d2_m8_w4_t10_s13_Pknead_ws0 t=10240/10240 m_t=1024 attempts=11748 gen=1077s 
+B_n128_d2_m8_w4_t10_s13_Pknead_ws1 t=10240/10240 m_t=1024 attempts=11549 gen=1080s 
+B_n128_d2_m8_w4_t10_s12_Pknead_ws0 t=10240/10240 m_t=1024 attempts=12034 gen=1367s 
+B_n128_d2_m8_w4_t10_s12_Pknead_ws1 t=10240/10240 m_t=1024 attempts=11896 gen=1406s 
+B_n64_d2_m8_w4_t10_s10_Pknead_ws0 t=5120/5120 m_t=512 attempts=5880 gen=630s 
+B_n64_d2_m8_w4_t10_s10_Pknead_ws1 t=5120/5120 m_t=512 attempts=5839 gen=630s 
+B_n64_d2_m8_w4_t10_s11_Pknead_ws0 t=5120/5120 m_t=512 attempts=5980 gen=770s 
+B_n64_d2_m8_w4_t10_s11_Pknead_ws1 t=5120/5120 m_t=512 attempts=6091 gen=779s 
+B_n64_d2_m8_w4_t10_s13_Pknead_ws0 t=5120/5120 m_t=512 attempts=5919 gen=711s 
+B_n64_d2_m8_w4_t10_s13_Pknead_ws1 t=5120/5120 m_t=512 attempts=5896 gen=696s 
+B_n64_d2_m8_w4_t10_s12_Pknead_ws0 t=5120/5120 m_t=512 attempts=5867 gen=1032s 
+B_n64_d2_m8_w4_t10_s12_Pknead_ws1 t=5120/5120 m_t=512 attempts=5769 gen=1029s 
+B_n32_d2_m8_w4_t10_s10_Pknead_ws0 t=2560/2560 m_t=256 attempts=2820 gen=404s 
+B_n32_d2_m8_w4_t10_s10_Pknead_ws1 t=2560/2560 m_t=256 attempts=2807 gen=420s 
+B_n32_d2_m8_w4_t10_s11_Pknead_ws1 t=2560/2560 m_t=256 attempts=2863 gen=463s 
+B_n32_d2_m8_w4_t10_s11_Pknead_ws0 t=2560/2560 m_t=256 attempts=2796 gen=472s 
+B_n32_d2_m8_w4_t10_s12_Pknead_ws0 t=2560/2560 m_t=256 attempts=2876 gen=186s 
+B_n32_d2_m8_w4_t10_s12_Pknead_ws1 t=2560/2560 m_t=256 attempts=2874 gen=177s 
+B_n32_d2_m8_w4_t10_s13_Pknead_ws0 t=2560/2560 m_t=256 attempts=2776 gen=314s 
+B_n32_d2_m8_w4_t10_s13_Pknead_ws1 t=2560/2560 m_t=256 attempts=2824 gen=350s 
+R3B_DONE
