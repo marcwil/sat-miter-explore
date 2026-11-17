@@ -23,8 +23,11 @@ Round 3 shows that most of that growth was an artifact of the estimator:
 - **A.** The corrected width estimator (layer cuts, maximum over wires)
   passes every calibration control.
 - **B.** With it, the width after kneading grows about like 1.4·log₂ n over
-  n = 32–256 (26 instances). A power n^0.43 fits as well. Solvers and
-  transcript-free sweeping solve n = 256 in under 10 s.
+  n = 32–256 (26 instances). A power n^0.43 fits as well.
+  - About half of that growth comes from using one flat cut across regions
+    whose "local time" has drifted apart.
+  - Spatially varying cuts leave about 0.75·log₂ n.
+  - Solvers and transcript-free sweeping solve n = 256 in under 10 s.
 - **C.** Planted R·R⁻¹ makes C_t wide relative to C_0, but not hard.
   Inflating to 3m and 5m adds about 2–3 to the width, and nothing to the
   hardness.
@@ -78,8 +81,9 @@ For comparison, the old prefix statistic gave 20 at n = 64 and 32 at n = 128.
 ## B. Width against n with seeds
 
 **Result: the corrected width grows about like 1.4·log₂ n from n = 32 to
-256. The miters stay easy: at n = 256 the best tool needs 0.4 s, and
-transcript-free sweeping needs 3.7 s.**
+256. About half of that growth disappears with spatially varying cuts, which
+leaves about 0.75·log₂ n. The miters stay easy: at n = 256 the best tool needs
+0.4 s, and transcript-free sweeping needs 3.7 s.**
 
 Setup (`grids/r3_B.json`, `grids/r3_B256.json`): knead, gate set B, m = 8n,
 t = 10m.
@@ -110,7 +114,45 @@ t = 10m.
 - The mean over wires barely moves (1.23 → 1.43), so the growth comes from a
   few wires per cut.
 
-TAIL_TEXT
+**Where the growth comes from** (`r3_tail.py` → `results/r3_tail.json`;
+`r3_nonflat.py` → `results/r3_nonflat.csv`):
+
+1. **Not the extreme value of a fixed per-wire law.**
+   - At the chosen cuts, the fraction of wires with |D(w)| ≥ 4 is 1.6%,
+     2.3%, 4.7% and 6.2% at n = 32, 64, 128, 256. The per-wire distribution
+     itself gets heavier with n.
+   - A tail fitted at n ≤ 64 predicts maxima of 5.3 (n = 128) and 6.0
+     (n = 256), against the observed 6.0 and 7.1.
+2. **About half of the growth is misalignment of a single flat cut.**
+   - A refutation may take as its C_0 cut any downward-closed set of C_0
+     gates (an ideal of the dependency order), not only a flat layer.
+   - `r3_nonflat.py` builds such cuts from each wire's preferred layer (the
+     flat layer minimising |D(w)| for that wire), then closes them downward.
+     Its validity was checked by simulation; without the closure step the
+     function changes.
+
+   | n | best flat cut | best spatially varying cut | worst wire's per-wire best flat cut | spread of the wires' preferred layers |
+   |---|---|---|---|---|
+   | 32 | 3.21 | 2.62 | 2.46 | 3.0 |
+   | 64 | 3.88 | 3.11 | 2.86 | 5.5 |
+   | 128 | 6.03 | 3.93 | 3.43 | 7.8 |
+   | 256 | 7.08 | 5.12 | 4.58 | 12.5 |
+
+   (Max width per cut, mean over 12 cuts and over instances.)
+   - Spatially varying cuts lower the fit from 1.39·log₂ n to 0.75·log₂ n
+     (power n^0.31).
+   - The preferred layers spread further apart with n. Rewriting shifts the
+     "local time" of different regions by different amounts, like a growing
+     random surface, and no flat cut fits every region.
+3. **The rest of the growth persists.**
+   - Even the worst wire's own best cut widens slowly (0.59·log₂ n).
+   - The spatially varying cuts are heuristic, so they are upper bounds; an
+     optimal ideal could be narrower. The per-wire column suggests the
+     residual growth is real but slow.
+
+For the theory this means the right object is a chain of ideals (spatially
+varying cuts), not flat layers. The realistic target is width O_w(log n),
+not O(1).
 
 **Solvers and sweeping on the same instances, with t = 0 baselines**
 (`results/r3_B_e3.csv`, `results/r3_B_sweep.csv`; medians, 300 s timeout, all
@@ -278,7 +320,7 @@ What happens:
 | step | plan rule | outcome | decision |
 |---|---|---|---|
 | A, estimator | the controls must pass | all pass | layer-cut max width is the statistic from now on |
-| B, scaling | growth ≥ log n keeps Q2 alive; then run solvers on n = 256 | ≈ 1.4·log₂ n; n = 256 solved in 0.4 s (best tool) and 3.7 s (sweeping) | width sits at the log boundary, where the proof sketch gives polynomial refutations; no sign of hardness |
+| B, scaling | growth ≥ log n keeps Q2 alive; then run solvers on n = 256 | ≈ 1.4·log₂ n with flat cuts, ≈ 0.75·log₂ n with spatially varying cuts; n = 256 solved in 0.4 s (best tool) and 3.7 s (sweeping) | width at or below the log boundary, where the proof sketch gives polynomial refutations; no sign of hardness |
 | C, planted and ikfree | best tool above 300 s at n = 128 | below 1 s at n = 64 | stage 2 not run; negative |
 | C2 (i)/(ii), geometry noise | ratio above 10× and growing with n | 3–4×, the same as without noise | dropped as implemented |
 | C2 (iii), gate arity | new-skeleton fraction above 52% | 39% | dropped |

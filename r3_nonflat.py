@@ -62,7 +62,7 @@ def one(path, ncuts=12, P=256, span=0.12, min_span=3):
     lay = width.asap_layers(C0L)  # layered order is a linear extension, layers unchanged
     L0, Lt = len(b0) - 1, len(bt) - 1
     pf = width.Prefixes(C0L, CtL, n, P, 0)
-    nb = {w: set() for w in range(n)}
+    nb = {w: {w} for w in range(n)}  # include w itself (some wires carry no gate)
     for g in C0L:
         ws = list(g[0]) + list(g[1])
         for a in ws:
@@ -79,8 +79,6 @@ def one(path, ncuts=12, P=256, span=0.12, min_span=3):
         tau = np.array([cand[min(range(len(cand)), key=lambda a: (R[a, w], abs(cand[a] - flat)))] for w in range(n)])
         taus = np.array([int(np.median([tau[v] for v in nb[w]])) for w in range(n)])
         variants = {}
-        for name, rule in (("a", lambda g: lay_g <= tau[g[0][0]]),):
-            pass
         sels = {
             "a": [i for i, g in enumerate(C0L) if lay[i] <= tau[g[0][0]]],
             "b": [i for i, g in enumerate(C0L) if lay[i] <= taus[g[0][0]]],

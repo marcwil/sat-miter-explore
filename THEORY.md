@@ -162,6 +162,13 @@ Then the miter has a refutation of size m · 2^O(k).
     closer to the log curve, but cannot separate the two forms.
 - Unrelated circuits give about 0.75 n.
 
+The C_0 cuts need not be flat layers. Any ideal of the C_0 dependency order
+(a downward-closed gate set) is a valid cut, and the sketch works with a chain
+of ideals. Spatially varying ideals, built from each wire's preferred layer,
+lower the measured width to 2.6, 3.1, 3.9 and 5.1 at n = 32 to 256, i.e.
+0.75·log₂ n (`results/r3_nonflat.csv`). The rest of the growth persists:
+even each wire's own best flat cut widens like 0.59·log₂ n.
+
 If the width is O(log n), the sketch gives polynomial refutations.
 
 ## 5. Open question
@@ -181,5 +188,10 @@ The open ingredients are:
 1. Is the move graph on equivalent circuits connected?
 2. If it is, does its stationary distribution concentrate on circuits with
    narrow correspondence to C_0?
-3. A per-wire tail bound on |D(w)| that would explain the log n maximum as an
-   extreme value.
+3. A per-wire tail bound on |D(w)|, together with a bound on how far the
+   "local time" of different regions drifts apart. Measured in round 3:
+   - the per-wire tail itself grows with n (P(|D| ≥ 4) from 1.6% to 6.2% for
+     n = 32 to 256), so the maximum is not just an extreme value;
+   - the wires' preferred C_0 layers spread from 3 to 12.5 layers.
+
+   Both effects need to be controlled.
