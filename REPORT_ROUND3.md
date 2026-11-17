@@ -33,6 +33,9 @@ Round 3 shows that most of that growth was an artifact of the estimator:
   hardness.
 - **C2.** Geometry noise freezes the long-range gates, so kneading becomes
   more rigid, not less. Weighted gate arity failed its gate-first check.
+- **U (side study).** Uniformly wired circuits, with no geometry, are more
+  rigid under bounded windows. w3 width stays flat at about 2.5, and all
+  miters are easy. The separator cap is not what keeps the miters easy.
 - **Decision.** Stop experimenting with bounded-window local rewriting. What
   remains is a theorem to prove, or a different rewriting process (see
   "Decisions and next steps").
@@ -315,6 +318,92 @@ What happens:
   interaction graph, with a wire cap that grows with the gates' range. That
   needs a sampler beyond the current 7-wire, 4-gate limit.
 
+## U. Side study: uniformly wired circuits (no geometry)
+
+**Result: without geometry, bounded-window rewriting is *more* rigid, not
+less. All 160 miters are easy. The spatial-separator cap is not what keeps
+these miters easy.**
+
+**Setup.**
+- `Geometry(wiring="uniform")`: every gate of C_0 sits on 3 uniformly random
+  wires.
+- Replacement gates may use any triple of the window's wires, so rewrites
+  genuinely rewire the circuit.
+- The miter's primal graph is then expander-like, so the bound of
+  THEORY.md section 3 no longer applies.
+- Every new type passed `check.py --solver` at n = 16
+  (`results/instances/r3Uval`).
+
+**Stage 0: windows** (`r3u_stage0.py` → `results/r3u_stage0.json`; 300
+windows per cell, 40 for knead at cap 8).
+
+| | geometric, n = 64 / 256 | uniform, n = 64 / 256 |
+|---|---|---|
+| 4-gate windows within 7 wires | 56% / 62% | 1.7% / 0.2% |
+| 4-gate windows within 8 wires | 89% / 89% | 25% / 6% |
+| w3 windows with a new-skeleton alternative | 21% / 18% | 7% / 10% |
+| inflate (2 → 4) windows with a new-skeleton alternative | 100% / 100% | 100% / 100% |
+| knead (cap 7) windows with a new-skeleton alternative, where available | 52% / 47% | 45% / 47% |
+| knead at cap 8: new-skeleton windows, seconds per window | – | 22% / 20%, 1.4 / 1.6 s |
+
+- Uniform circuits are locally tree-like: each non-commuting gate brings 2
+  fresh wires. So 4-gate windows almost never fit the wire cap, and knead is
+  unavailable.
+- 3-gate windows fit, but their alternatives are mostly reorderings: 73–78%
+  of the samples, against 54% for geometric wiring.
+- Only inflation stays rich.
+
+Stage 1 therefore used `w3` and `i3free`. `i3free` inflates 2 → 4 with
+probability 1/2 until the circuit reaches 3m, otherwise it takes a w3 step.
+Both ran on both wirings.
+
+**Stage 1** (`grids/r3_U_stage1.json`; n ∈ {32, 64, 128, 256}, 2 C_0 seeds × 2
+walk seeds, t ∈ {0, m, 10m}):
+- **Calibration** (`results/r3u_calibration.csv`): t = 0 and a commuting
+  shuffle give exactly 1. Unrelated uniform circuits give about 0.92 n
+  (30, 59, 117), against about 0.75 n for geometric wiring.
+- **Width at t = 10m** (`results/r3u_width.csv`; max width per cut, mean over
+  12 cuts, mean over 4 instances):
+
+| arm | n = 32 | 64 | 128 | 256 | fit | C_0 gates surviving |
+|---|---|---|---|---|---|---|
+| w3, geometric | 3.0 | 4.3 | 5.9 | 6.5 | 1.18·log₂ n − 2.8 | 0.59–0.63 |
+| w3, uniform | 2.4 | 2.3 | 2.9 | 2.4 | flat (0.05·log₂ n) | 0.72–0.78 |
+| i3free to 3m, geometric | 5.8 | 7.2 | 9.9 | 13.0 | 2.42·log₂ n − 6.8 | 0.50–0.53 |
+| i3free to 3m, uniform | 5.5 | 7.2 | 8.2 | 11.0 | 1.77·log₂ n − 3.5 | 0.53 |
+
+![uniform vs geometric](results/plots/r3u_width.png)
+
+- **Wire-varying cuts** (`results/r3u_nonflat.csv`; n ≤ 128, built as in
+  section B from gate neighbours, which needs no geometry) lower i3free
+  uniform to 4.5, 4.9 and 5.7, and w3 uniform to 1.7, 1.5 and 1.9.
+- **Solvers** (`results/r3u_e3.csv`; medians, all 640 runs UNSAT within
+  300 s):
+
+| arm, n = 256 | CaDiCaL t = 0 → 10m | Kissat t = 0 → 10m | best tool at 10m | sweeping at 10m (gate groups verified) |
+|---|---|---|---|---|
+| w3, geometric | 3.1 → 6.6 s | 1.4 → 2.6 s | 0.38 s | 3.9 s (68%) |
+| w3, uniform | 2.6 → 2.1 s | 1.6 → 2.0 s | 0.34 s | 4.0 s (75%) |
+| i3free, geometric | 3.1 → 17.5 s | 1.4 → 8.3 s | 1.19 s | 9.1 s (30%) |
+| i3free, uniform | 2.6 → 9.1 s | 1.6 → 6.7 s | 1.11 s | 7.6 s (22%) |
+
+  - The CaDiCaL ratio t = 10m / t = 0 for i3free uniform is 5.2, 5.1, 6.6 and
+    3.5 at n = 32 … 256. It does not grow with n, and it is no larger than
+    the geometric ratio (4.1–5.6).
+
+**Reading.**
+- **Without geometry, w3 is nearly frozen.** Its width is O(1), and it
+  rewrites fewer gates than on geometric wiring.
+- **The width growth of section B is tied to the geometry.** It appears for
+  w3 only on geometric circuits, where the wires' preferred cut layers
+  spread apart (1.7 → 8.3 layers from n = 32 to 128). On uniform circuits
+  they stay within about 1 layer.
+- **Inflation adds width in both wirings,** less for uniform. It is about
+  log n, and it does not make the miters harder.
+- **Decision:** neither keep criterion of the plan is met (width growing
+  faster than geometric, or a solver ratio above 10× that grows with n).
+  Recorded as a negative result; no stage 2.
+
 ## Decisions and next steps
 
 | step | plan rule | outcome | decision |
@@ -324,10 +413,11 @@ What happens:
 | C, planted and ikfree | best tool above 300 s at n = 128 | below 1 s at n = 64 | stage 2 not run; negative |
 | C2 (i)/(ii), geometry noise | ratio above 10× and growing with n | 3–4×, the same as without noise | dropped as implemented |
 | C2 (iii), gate arity | new-skeleton fraction above 52% | 39% | dropped |
+| U, uniform wiring (side study) | width faster than geometric, or solver ratio above 10× growing with n | w3 width flat (≈ 2.5); i3free 1.77·log₂ n, below geometric; CaDiCaL ratio 3.5–6.6, not growing | negative; no stage 2 |
 
 **Recommendation: stop experimenting with this model family.** That is
 local gate sets A/B with windows of ≤ 4 gates and ≤ 7 wires, with or without
-geometry noise, planted R·R⁻¹ or inflation to 5m.
+geometry noise, planted R·R⁻¹, inflation to 5m, or uniform wiring.
 - Over three rounds, every variant was solved in seconds without the
   transcript.
 - The one statistic that grew with n grows like log n, which is what a

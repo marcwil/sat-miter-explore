@@ -188,3 +188,22 @@ def plot_r3_scaling(bcsv="results/r3_B_width.csv", calib="results/r3_calibration
     axes[0].legend(frameon=False, fontsize=7)
     fig.suptitle("corrected correspondence width (layer cuts), gate set B, m = 8n", fontsize=10)
     fig.tight_layout(); fig.savefig(os.path.join(OUT, fname), dpi=150); plt.close(fig)
+
+
+def plot_r3u_width(wcsv="results/r3u_width.csv", calib="results/r3u_calibration.csv", fname="r3u_width.png"):
+    d = pd.read_csv(wcsv)
+    d = d[d.instance.str.contains("_t10_")]
+    d["arm"] = [("i3free" if "Pi3free" in s else "w3") + (", uniform" if s.endswith("_U") else ", geometric") for s in d.instance]
+    fig, ax = plt.subplots(figsize=(5.6, 3.8))
+    sty = {"w3, geometric": ("#2a78d6", "--"), "w3, uniform": ("#2a78d6", "-"),
+           "i3free, geometric": ("#eb6834", "--"), "i3free, uniform": ("#eb6834", "-")}
+    for arm, (col, ls) in sty.items():
+        h = d[d.arm == arm]
+        g = h.groupby("n").lcut_max_mean.mean()
+        ax.scatter(h.n * np.exp(np.random.default_rng(1).normal(0, 0.03, len(h))), h.lcut_max_mean, s=10, color=col, alpha=0.4)
+        ax.plot(g.index, g.values, ls, marker="o", ms=4, color=col, label=arm + (" (to 3m)" if "i3free" in arm else ""))
+    ax.set_xscale("log", base=2)
+    ax.set_xlabel("n (wires)"); ax.set_ylabel("max width per cut (mean over 12 cuts)")
+    ax.set_title("uniform vs geometric wiring, t = 10m, gate set B, m = 8n", fontsize=9)
+    ax.legend(frameon=False, fontsize=7)
+    fig.tight_layout(); fig.savefig(os.path.join(OUT, fname), dpi=150); plt.close(fig)

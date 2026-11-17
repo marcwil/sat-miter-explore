@@ -15,6 +15,8 @@ easy to record and hard to recover*.
     removable with spatially varying cuts).
   - It reports the planted R·R⁻¹, large-inflation and geometry-noise tests,
     and ends with a stop/continue decision.
+  - Side study U: uniformly wired circuits with no geometry. These are more
+    rigid under bounded windows, and all their miters are easy.
 - [THEORY.md](THEORY.md): what is proved, sketched or only measured:
   - gauge rigidity;
   - constant-width refutations under gauge-only rewriting;

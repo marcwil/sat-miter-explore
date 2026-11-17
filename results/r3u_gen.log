@@ -158,3 +158,4 @@ B_n32_d2_m8_w35_t1_s41_Pi3free_x3_ws1 t=256/256 m_t=568 attempts=301 gen=2s
 B_n32_d2_m8_w35_t10_s41_Pi3free_x3_ws1 t=2560/2560 m_t=768 attempts=3230 gen=9s 
 B_n32_d2_m8_w35_t1_s41_Pi3free_x3_ws1_U t=256/256 m_t=552 attempts=290 gen=4s
 B_n32_d2_m8_w35_t10_s41_Pi3free_x3_ws1_U t=2560/2560 m_t=768 attempts=3378 gen=19s 
+R3U_DONE

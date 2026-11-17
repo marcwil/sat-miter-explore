@@ -126,6 +126,11 @@ refutation of size n · 3^O(w). ∎
 - Long-range gates remove this ceiling once p·m ≫ n^(1−1/d), i.e.
   p ≫ n^(−1/d) · n/m. This is the scale of the noise parameter c in round 3
   (p = c · n^(−1/d) · n/m).
+- Without geometry the ceiling disappears entirely. Uniformly wired circuits
+  give expander-like miters. Yet under bounded-window rewriting they are more
+  rigid than geometric ones: w3 width stays at about 2.5 for n = 32 to 256,
+  and every miter is easy (REPORT_ROUND3.md, section U). So the ceiling is
+  not what keeps these miters easy.
 - Removing the ceiling is necessary for hardness, not sufficient. In round 3
   (REPORT_ROUND3.md, section C2) long-range gates were barely rewritten by
   bounded windows. In 68–100% of cases they survived unchanged and acted as
