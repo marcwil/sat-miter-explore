@@ -27,6 +27,10 @@ def name_of(p):
         s += "_c%g%s" % (p["c_long"], "A" if p.get("long_arm") == "allowed" else "L")
     if p.get("plant_mult"):
         s += "_R%g" % p["plant_mult"]
+    if p.get("smax", 7) != 7:
+        s += "_S%d" % p["smax"]
+    if p.get("wiring", "geo") == "uniform":
+        s += "_U"
     return s
 
 

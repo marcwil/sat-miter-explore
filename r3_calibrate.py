@@ -63,12 +63,12 @@ def job(spec):
         X = (np.random.default_rng(1).random((n, 2000)) < 0.5).astype(np.uint8)
         assert np.array_equal(model.simulate(C0, n, X), model.simulate(Ct, n, X))
         label = "shuffle:" + os.path.basename(arg)[:-5]
-    elif kind == "null":
+    elif kind in ("null", "nullU"):
         n, s = arg
-        geo = model.Geometry(n, 2, 8.0, seed=1000 + s)
+        geo = model.Geometry(n, 2, 8.0, seed=1000 + s, wiring="uniform" if kind == "nullU" else "geo")
         C0 = model.random_circuit(geo, "B", 8 * n, np.random.default_rng(s))
         Ct = model.random_circuit(geo, "B", 8 * n, np.random.default_rng(100 + s))
-        label = "null:B_n%d_s%d" % (n, s)
+        label = "%s:B_n%d_s%d" % (kind, n, s)
     rows = width.width_layers(C0, Ct, n, P=P)
     r = dict(label=label, kind=kind, n=n, P=P, seconds=round(time.time() - t0, 1))
     r.update(width.summary_layers(rows))

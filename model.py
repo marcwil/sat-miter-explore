@@ -76,10 +76,21 @@ def commute(g, h):
 
 # ---------------------------------------------------------------- geometry
 class Geometry:
-    def __init__(self, n, d, k_nb=8.0, seed=0, beta=None, alpha=0.0, pctrl=1.0, p_long=0.0, alpha_long=2.5):
+    def __init__(self, n, d, k_nb=8.0, seed=0, beta=None, alpha=0.0, pctrl=1.0, p_long=0.0, alpha_long=2.5,
+                 wiring="geo"):
         rng = np.random.default_rng(seed)
         vol = {1: 2.0, 2: math.pi, 3: 4.0 * math.pi / 3.0}[d]
         self.n, self.d = n, d
+        self.wiring = wiring
+        if wiring == "uniform":  # no geometry: every wire pair is "local", gates on uniform triples
+            self.r = 1.0
+            self.pts = np.zeros((n, d)); self.dist = np.zeros((n, n))
+            self.adj = ~np.eye(n, dtype=bool)
+            self.nbrs, self.pairs, self.triples = None, None, None
+            self.alpha, self.pctrl, self.p_long, self.alpha_long = alpha, pctrl, 0.0, alpha_long
+            self.extra_pairs = set()
+            self.weight = np.ones(n)
+            return
         self.r = (k_nb / (n * vol)) ** (1.0 / d)
         for _ in range(1000):
             pts = rng.random((n, d))
@@ -119,6 +130,8 @@ class Geometry:
         return len(seen) == n
 
     def is_local(self, wires):
+        if self.wiring == "uniform":
+            return True
         return all(self.adj[a, b] or (min(a, b), max(a, b)) in self.extra_pairs
                    for a, b in itertools.combinations(wires, 2))
 
@@ -149,6 +162,9 @@ def random_gate(geo, gset, rng):
         c = geo.sample_control(rng, T)
         table = tuple(int(x) for x in rng.permutation(8)) + tuple(int(x) for x in rng.permutation(8))
         return (T, (c,), table)
+    if gset == "B" and geo.wiring == "uniform":
+        a, b, c = (int(x) for x in rng.choice(geo.n, 3, replace=False))
+        return xor_gate(a, b, c, PHIS[rng.integers(10)])
     if gset == "B" and geo.p_long > 0 and rng.random() < geo.p_long:
         a = int(rng.integers(geo.n))
         b = geo.sample_long(rng, a, [a])

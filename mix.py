@@ -217,7 +217,7 @@ def try_step(circ, geo, gset, kind, rng, heavy=frozenset(), smax=7):
     return new_circ, rec
 
 
-def process(circ, geo, gset, t, rng, mode, heavy=frozenset(), max_tries=200, target=None):
+def process(circ, geo, gset, t, rng, mode, heavy=frozenset(), max_tries=200, target=None, smax=7):
     """mode:
       'w3'        : round-1 process (3 -> 3)
       'knead'     : 4 -> 4 only (size fixed)
@@ -235,6 +235,8 @@ def process(circ, geo, gset, t, rng, mode, heavy=frozenset(), max_tries=200, tar
             kind = mode
         elif mode == "ikfree":  # inflate up to the target size, never deflate
             kind = "inflate" if (len(circ) < target and rng.random() < 0.5) else "knead"
+        elif mode == "i3free":  # as ikfree, but 3 -> 3 steps instead of kneading
+            kind = "inflate" if (len(circ) < target and rng.random() < 0.5) else "w3"
         else:
             u = rng.random()
             if u < 0.5:
@@ -245,7 +247,7 @@ def process(circ, geo, gset, t, rng, mode, heavy=frozenset(), max_tries=200, tar
                 kind = "deflate"
         tries += 1
         stats["attempts"] += 1
-        r = try_step(circ, geo, gset, kind, rng, heavy)
+        r = try_step(circ, geo, gset, kind, rng, heavy, smax=smax)
         if r is None:
             continue
         circ, rec = r

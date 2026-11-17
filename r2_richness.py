@@ -23,14 +23,14 @@ def classify(orig, seq):
     return "newskel"
 
 
-def run(gset, kind, nwin, beta=None, smax=7, seed=3):
+def run(gset, kind, nwin, beta=None, smax=7, seed=3, n=64, wiring="geo"):
     w, L = {"knead": (4, 4), "inflate": (2, 4), "deflate": (4, 2), "w3": (3, 3)}[kind]
     rng = np.random.default_rng(seed)
     recs, t_sum = [], 0.0
     rep = 0
     while len(recs) < nwin:
-        geo = model.Geometry(64, 2, 8.0, seed=700 + rep, beta=beta); rep += 1
-        C = model.random_circuit(geo, gset, 512, rng)
+        geo = model.Geometry(n, 2, 8.0, seed=700 + rep, beta=beta, wiring=wiring); rep += 1
+        C = model.random_circuit(geo, gset, 8 * n, rng)
         got = 0
         while got < 25 and len(recs) < nwin:
             W = mix._window(C, w, rng, smax if w == 4 else 99)

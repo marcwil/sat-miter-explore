@@ -10,18 +10,20 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+WCODE = {"w3": 3, "knead": 4, "ik": 24, "ikfree": 25, "i3free": 35, "none": 0}
 
 
 def generate(p):
     sys.path.insert(0, HERE)
     import model, mix, instance
     q = dict(instance.DEFAULTS); q.update(p)
-    q["w"] = {"w3": 3, "knead": 4, "ik": 24, "ikfree": 25, "none": 0}[q["mode"]]
+    q["w"] = WCODE[q["mode"]]
     if q.get("c_long") is not None:  # long-range fraction p = c * n^(-1/d) * (n/m)
         q["p_long"] = min(1.0, q["c_long"] / (q["m_per_n"] * q["n"] ** (1.0 / q["d"])))
     geo = model.Geometry(q["n"], q["d"], q["k_nb"], seed=1000 + q["seed"], beta=q["beta"],
                          alpha=q.get("alpha", 0.0), pctrl=q.get("pctrl", 1.0),
-                         p_long=q.get("p_long", 0.0), alpha_long=q.get("alpha_long", 2.5))
+                         p_long=q.get("p_long", 0.0), alpha_long=q.get("alpha_long", 2.5),
+                         wiring=q.get("wiring", "geo"))
     heavy = frozenset()
     if q.get("heavy_q"):
         cut = np.quantile(geo.weight, 1 - q["heavy_q"])
@@ -61,7 +63,7 @@ def generate(p):
             tr_new, st = [], dict(attempts=0, final_m=len(Ct))
         else:
             Ct, tr_new, st = mix.process(Ct, geo, q["gset"], t - done, rng, q["mode"], heavy,
-                                         target=int(q.get("size_mult", 1.25) * m))
+                                         target=int(q.get("size_mult", 1.25) * m), smax=q.get("smax", 7))
         tr = tr + tr_new; done = len(tr) - len(plant_tr)
         for k2, v in st.items():
             agg[k2] = agg.get(k2, 0) + v if k2 != "final_m" else v
@@ -79,7 +81,7 @@ def _job(args):
     import instance
     last = dict(p, tfrac=max(p.get("snap", [p["tfrac"]])))
     last.pop("snap", None); last.pop("sampler", None)
-    nm = instance.name_of(dict(instance.DEFAULTS, **last, w={"w3": 3, "knead": 4, "ik": 24, "ikfree": 25, "none": 0}[p["mode"]]))
+    nm = instance.name_of(dict(instance.DEFAULTS, **last, w=WCODE[p["mode"]]))
     if os.path.exists(os.path.join(outdir, nm + ".json")):
         return nm, "exists"
     msgs = []

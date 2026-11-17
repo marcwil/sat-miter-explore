@@ -1,0 +1,2 @@
+[{"gset": "B", "n": [32, 64, 128, 256], "m_per_n": 8, "mode": "w3", "tfrac": 10, "snap": [0, 1, 10], "seed": [40, 41], "walk_seed": [0, 1], "wiring": ["uniform", "geo"]},
+ {"gset": "B", "n": [32, 64, 128, 256], "m_per_n": 8, "mode": "i3free", "tfrac": 10, "snap": [1, 10], "seed": [40, 41], "walk_seed": [0, 1], "wiring": ["uniform", "geo"], "size_mult": 3.0}]

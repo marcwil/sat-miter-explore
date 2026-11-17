@@ -28,8 +28,9 @@ if __name__ == "__main__":
     done = set()
     if os.path.exists(out):
         done = {r["instance"] for r in csv.DictReader(open(out))}
+    filt = os.environ.get("FILTER")  # optional regex on instance names
     paths = [p for d in dirs for p in sorted(glob.glob(os.path.join(d, "*.json")))
-             if os.path.basename(p)[:-5] not in done]
+             if os.path.basename(p)[:-5] not in done and (not filt or re.search(filt, os.path.basename(p)))]
     new = not os.path.exists(out)
     with open(out, "a", newline="") as fh, ProcessPoolExecutor(jobs) as ex:
         w = None

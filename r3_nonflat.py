@@ -102,7 +102,9 @@ def one(path, ncuts=12, P=256, span=0.12, min_span=3):
 
 if __name__ == "__main__":
     out, dirs = sys.argv[1], sys.argv[2:]
-    paths = [p for d in dirs for p in sorted(glob.glob(os.path.join(d, "*_t10_*.json")))]
+    filt = os.environ.get("FILTER")  # optional regex on instance names
+    paths = [p for d in dirs for p in sorted(glob.glob(os.path.join(d, "*_t10_*.json")))
+             if not filt or __import__("re").search(filt, os.path.basename(p))]
     with open(out, "w", newline="") as fh, ProcessPoolExecutor(int(os.environ.get("JOBS", 4))) as ex:
         w = None
         for f in as_completed([ex.submit(one, p) for p in paths]):
