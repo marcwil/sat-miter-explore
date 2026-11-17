@@ -16,9 +16,12 @@ def generate(p):
     sys.path.insert(0, HERE)
     import model, mix, instance
     q = dict(instance.DEFAULTS); q.update(p)
-    q["w"] = {"w3": 3, "knead": 4, "ik": 24, "none": 0}[q["mode"]]
+    q["w"] = {"w3": 3, "knead": 4, "ik": 24, "ikfree": 25, "none": 0}[q["mode"]]
+    if q.get("c_long") is not None:  # long-range fraction p = c * n^(-1/d) * (n/m)
+        q["p_long"] = min(1.0, q["c_long"] / (q["m_per_n"] * q["n"] ** (1.0 / q["d"])))
     geo = model.Geometry(q["n"], q["d"], q["k_nb"], seed=1000 + q["seed"], beta=q["beta"],
-                         alpha=q.get("alpha", 0.0), pctrl=q.get("pctrl", 1.0))
+                         alpha=q.get("alpha", 0.0), pctrl=q.get("pctrl", 1.0),
+                         p_long=q.get("p_long", 0.0), alpha_long=q.get("alpha_long", 2.5))
     heavy = frozenset()
     if q.get("heavy_q"):
         cut = np.quantile(geo.weight, 1 - q["heavy_q"])
@@ -30,11 +33,27 @@ def generate(p):
         g = model.random_gate(geo, q["gset"], rng)
         if not any(w in heavy for w in g[0]):
             C0.append(g)
+    if q.get("long_arm") == "allowed":  # rewrites may reuse the long-range pairs of C_0
+        geo.extra_pairs = {(min(u, v), max(u, v)) for g in C0 if not geo.is_local(list(g[0]) + list(g[1]))
+                           for u, v in __import__("itertools").combinations(list(g[0]) + list(g[1]), 2)}
+    q["n_long_gates"] = sum(1 for g in C0 if not all(geo.adj[u, v] for u, v in
+                                                     __import__("itertools").combinations(list(g[0]) + list(g[1]), 2)))
+    plant_tr = []
+    if q.get("plant_mult"):  # insert R . R^-1 in the middle of C_0 (R random, same gate set)
+        import width
+        prng = np.random.default_rng(20_000 + q["seed"])
+        R = [model.random_gate(geo, q["gset"], prng) for _ in range(int(q["plant_mult"] * q["n"]))]
+        Rinv = [width.inverse_gate(g) for g in reversed(R)]
+        h = m // 2
+        plant_tr = [dict(start=h, end=h, order=[], w=0, new=R + Rinv, kind="plant")]
+        C0_start = C0[:h] + R + Rinv + C0[h:]
+    else:
+        C0_start = C0
     mix.SAMPLER = q.get("sampler", "fp")
     if q.get("walk_seed") is not None:  # separate randomness for the rewriting walk
         rng = np.random.default_rng(10_000 + q["walk_seed"])
     snaps = sorted(q.get("snap", [q["tfrac"]]))
-    out, Ct, tr, done, t0 = [], C0, [], 0, time.time()
+    out, Ct, tr, done, t0 = [], C0_start, list(plant_tr), 0, time.time()
     agg = {}
     for sf in snaps:
         t = int(round(sf * m))
@@ -43,7 +62,7 @@ def generate(p):
         else:
             Ct, tr_new, st = mix.process(Ct, geo, q["gset"], t - done, rng, q["mode"], heavy,
                                          target=int(q.get("size_mult", 1.25) * m))
-        tr = tr + tr_new; done = len(tr)
+        tr = tr + tr_new; done = len(tr) - len(plant_tr)
         for k2, v in st.items():
             agg[k2] = agg.get(k2, 0) + v if k2 != "final_m" else v
         qq = dict(q, tfrac=sf, m=m, t=t, t_done=len(tr), gen_time=time.time() - t0,
@@ -60,7 +79,7 @@ def _job(args):
     import instance
     last = dict(p, tfrac=max(p.get("snap", [p["tfrac"]])))
     last.pop("snap", None); last.pop("sampler", None)
-    nm = instance.name_of(dict(instance.DEFAULTS, **last, w={"w3": 3, "knead": 4, "ik": 24, "none": 0}[p["mode"]]))
+    nm = instance.name_of(dict(instance.DEFAULTS, **last, w={"w3": 3, "knead": 4, "ik": 24, "ikfree": 25, "none": 0}[p["mode"]]))
     if os.path.exists(os.path.join(outdir, nm + ".json")):
         return nm, "exists"
     msgs = []

@@ -79,8 +79,20 @@ def replay(js):
                         commute_cache[key] = local_equal([seg[p], seg[q]], [seg[q], seg[p]], n)
                     assert commute_cache[key], "step %d: swapped non-commuting gates" % step
         new_seg = [seg[k] for k in order]
-        old_win = new_seg[len(new_seg) - w:]
+        old_win = new_seg[len(new_seg) - w:] if w else []
         new_win = [tuple(map(tuple, g[:2])) + (tuple(g[2]),) for g in r["new"]]
+        if r.get("kind") == "plant":  # inserted R . R^-1: second half must invert the first
+            assert w == 0 and start == end and len(new_win) % 2 == 0
+            h = len(new_win) // 2
+            for g, gi in zip(new_win[:h], reversed(new_win[h:])):
+                check_gate_valid(g); check_gate_valid(gi)
+                assert gi[0] == g[0] and gi[1] == g[1], "plant: support mismatch"
+                nT = len(g[0])
+                for c in range(1 << len(g[1])):
+                    for x in range(1 << nT):
+                        assert gi[2][(c << nT) | g[2][(c << nT) | x]] == x, "plant: not an inverse"
+            circ = circ[:start] + new_win + circ[end:]
+            continue
         for g in new_win:
             check_gate_valid(g)
         assert new_win != old_win, "step %d: replacement equals original" % step

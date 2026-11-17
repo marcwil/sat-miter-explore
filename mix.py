@@ -233,6 +233,8 @@ def process(circ, geo, gset, t, rng, mode, heavy=frozenset(), max_tries=200, tar
     while len(tr) < t and tries < max_tries * max(1, t):
         if mode in ("w3", "knead"):
             kind = mode
+        elif mode == "ikfree":  # inflate up to the target size, never deflate
+            kind = "inflate" if (len(circ) < target and rng.random() < 0.5) else "knead"
         else:
             u = rng.random()
             if u < 0.5:

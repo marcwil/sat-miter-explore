@@ -76,7 +76,7 @@ def commute(g, h):
 
 # ---------------------------------------------------------------- geometry
 class Geometry:
-    def __init__(self, n, d, k_nb=8.0, seed=0, beta=None, alpha=0.0, pctrl=1.0):
+    def __init__(self, n, d, k_nb=8.0, seed=0, beta=None, alpha=0.0, pctrl=1.0, p_long=0.0, alpha_long=2.5):
         rng = np.random.default_rng(seed)
         vol = {1: 2.0, 2: math.pi, 3: 4.0 * math.pi / 3.0}[d]
         self.n, self.d = n, d
@@ -100,6 +100,8 @@ class Geometry:
             raise RuntimeError("no local triples; increase k_nb")
         self.alpha = alpha
         self.pctrl = pctrl
+        self.p_long, self.alpha_long = p_long, alpha_long
+        self.extra_pairs = set()  # long-range pairs allowed in addition to the local ones
         if beta is not None:
             u = rng.random(n)
             self.weight = u ** (-1.0 / (beta - 1.0))  # Pareto, P(W>w)=w^-(beta-1)
@@ -117,7 +119,14 @@ class Geometry:
         return len(seen) == n
 
     def is_local(self, wires):
-        return all(self.adj[a, b] for a, b in itertools.combinations(wires, 2))
+        return all(self.adj[a, b] or (min(a, b), max(a, b)) in self.extra_pairs
+                   for a, b in itertools.combinations(wires, 2))
+
+    def sample_long(self, rng, a, exclude):
+        """wire drawn with P(v) ~ (1 + dist(a, v)/r)^-alpha_long (geometry noise)"""
+        w = (1.0 + self.dist[a] / self.r) ** (-self.alpha_long)
+        w[list(exclude)] = 0.0
+        return int(rng.choice(self.n, p=w / w.sum()))
 
     def sample_control(self, rng, targets):
         w = self.weight.copy()
@@ -140,6 +149,11 @@ def random_gate(geo, gset, rng):
         c = geo.sample_control(rng, T)
         table = tuple(int(x) for x in rng.permutation(8)) + tuple(int(x) for x in rng.permutation(8))
         return (T, (c,), table)
+    if gset == "B" and geo.p_long > 0 and rng.random() < geo.p_long:
+        a = int(rng.integers(geo.n))
+        b = geo.sample_long(rng, a, [a])
+        c = geo.sample_long(rng, a, [a, b])
+        return xor_gate(a, b, c, PHIS[rng.integers(10)])
     if gset == "B":
         T = [int(x) for x in geo.triples[rng.integers(len(geo.triples))]]
         rng.shuffle(T)

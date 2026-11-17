@@ -1,0 +1,10 @@
+{
+ "windows": 300,
+ "frac_alt": 0.89,
+ "frac_windows_newskel": 0.3933333333333333,
+ "frac_heavy_windows_fit_cap": 0.18072289156626506,
+ "sec_per_window": 0.8175793568293254,
+ "mean_gate_set_size": 1174.2133333333334,
+ "q3": 0.25,
+ "baseline_B_knead_newskel": 0.52
+}

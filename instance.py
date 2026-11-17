@@ -23,6 +23,10 @@ def name_of(p):
         s += "_x%g" % p["size_mult"]
     if p.get("walk_seed") is not None:
         s += "_ws%d" % p["walk_seed"]
+    if p.get("c_long") is not None:
+        s += "_c%g%s" % (p["c_long"], "A" if p.get("long_arm") == "allowed" else "L")
+    if p.get("plant_mult"):
+        s += "_R%g" % p["plant_mult"]
     return s
 
 

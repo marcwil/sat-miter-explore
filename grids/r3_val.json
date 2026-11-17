@@ -1,0 +1,4 @@
+[{"gset": "B", "n": 16, "m_per_n": 4, "mode": "knead", "tfrac": 2, "seed": 0, "c_long": [2, 8], "long_arm": ["local", "allowed"]},
+ {"gset": "B", "n": 16, "m_per_n": 4, "mode": "knead", "tfrac": 2, "seed": 0, "p_long": 1.0, "c_long": 999, "long_arm": "allowed"},
+ {"gset": "B", "n": 16, "m_per_n": 4, "mode": "knead", "tfrac": 2, "snap": [0, 2], "seed": 0, "plant_mult": [1, 4]},
+ {"gset": "B", "n": 16, "m_per_n": 4, "mode": "ikfree", "tfrac": 2, "seed": 0, "size_mult": 3.0}]
