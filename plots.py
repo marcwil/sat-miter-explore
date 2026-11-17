@@ -150,6 +150,23 @@ def plot_r2_long(csvfile, fname="r2_long.png", nulls={32: (20.7, 0.17), 64: (29.
     fig.tight_layout(); fig.savefig(os.path.join(OUT, fname), dpi=150); plt.close(fig)
 
 
+def plot_r3_solvers(ecsv="results/r3_B_e3.csv", fname="r3_solvers.png"):
+    e = pd.read_csv(ecsv)
+    e["n"] = e.instance.str.extract(r"_n(\d+)_").astype(int)
+    e["t"] = e.instance.str.extract(r"_t(\d+)_").astype(int)
+    fig, ax = plt.subplots(figsize=(5.2, 3.6))
+    cols = {"cadical": "#2a78d6", "kissat": "#1baf7a", "abc_cec": "#8a8984", "abc_gcec": "#eb6834"}
+    for tool, col in cols.items():
+        for t, ls in ((0, "--"), (10, "-")):
+            g = e[(e.tool == tool) & (e.t == t)].groupby("n").time.median()
+            ax.plot(g.index, g.values, ls, marker="o", ms=3, color=col, label="%s, t = %s" % (tool, "0" if t == 0 else "10m"))
+    ax.set_xscale("log", base=2); ax.set_yscale("log")
+    ax.set_xlabel("n (wires)"); ax.set_ylabel("median time (s)")
+    ax.set_title("miter solve time, knead, m = 8n", fontsize=10)
+    ax.legend(frameon=False, fontsize=6, ncol=2)
+    fig.tight_layout(); fig.savefig(os.path.join(OUT, fname), dpi=150); plt.close(fig)
+
+
 def plot_r3_scaling(bcsv="results/r3_B_width.csv", calib="results/r3_calibration.csv", fname="r3_scaling.png"):
     d = pd.read_csv(bcsv)
     c = pd.read_csv(calib)
@@ -165,6 +182,9 @@ def plot_r3_scaling(bcsv="results/r3_B_width.csv", calib="results/r3_calibration
         ax.plot(nl.index, nl.values, "--", color="#8a8984", label="unrelated circuit (null)")
         ax.set_xscale("log", base=2); ax.set_yscale("log", base=2)
         ax.set_xlabel("n (wires)"); ax.set_title(title, fontsize=10)
+    ns = np.array(sorted(d.n.unique()), dtype=float)
+    k, b0 = np.polyfit(np.log2(d.n), d.lcut_max_mean, 1)
+    axes[0].plot(ns, k * np.log2(ns) + b0, ":", color="#eb6834", label="fit %.2f log2 n %+.2f" % (k, b0))
     axes[0].legend(frameon=False, fontsize=7)
     fig.suptitle("corrected correspondence width (layer cuts), gate set B, m = 8n", fontsize=10)
     fig.tight_layout(); fig.savefig(os.path.join(OUT, fname), dpi=150); plt.close(fig)

@@ -1,0 +1,215 @@
+B_n32_d2_m8_w4_t0_s12_Pknead_ws0 t=0/0 m_t=256 attempts=0 gen=0s 
+B_n32_d2_m8_w4_t0_s13_Pknead_ws0 t=0/0 m_t=256 attempts=0 gen=0s 
+B_n32_d2_m8_w4_t0_s10_Pknead_ws0 t=0/0 m_t=256 attempts=0 gen=0s 
+B_n32_d2_m8_w4_t0_s11_Pknead_ws0 t=0/0 m_t=256 attempts=0 gen=0s 
+B_n64_d2_m8_w4_t0_s10_Pknead_ws0 t=0/0 m_t=512 attempts=0 gen=0s 
+B_n64_d2_m8_w4_t0_s12_Pknead_ws0 t=0/0 m_t=512 attempts=0 gen=0s 
+B_n64_d2_m8_w4_t0_s11_Pknead_ws0 t=0/0 m_t=512 attempts=0 gen=0s 
+B_n64_d2_m8_w4_t0_s13_Pknead_ws0 t=0/0 m_t=512 attempts=0 gen=0s 
+B_n128_d2_m8_w4_t0_s10_Pknead_ws0 t=0/0 m_t=1024 attempts=0 gen=0s 
+B_n128_d2_m8_w4_t0_s11_Pknead_ws0 t=0/0 m_t=1024 attempts=0 gen=0s 
+B_n128_d2_m8_w4_t0_s12_Pknead_ws0 t=0/0 m_t=1024 attempts=0 gen=0s 
+B_n128_d2_m8_w4_t0_s13_Pknead_ws0 t=0/0 m_t=1024 attempts=0 gen=0s 
+B_n256_d2_m8_w4_t0_s11_Pknead_ws0 t=0/0 m_t=2048 attempts=0 gen=0s 
+B_n256_d2_m8_w4_t0_s10_Pknead_ws0 t=0/0 m_t=2048 attempts=0 gen=0s 
+B_n128_d2_m8_w4_t0_s10_Pknead_ws0 abc_gcec UNSAT 0.054 None
+B_n128_d2_m8_w4_t0_s10_Pknead_ws0 abc_cec UNSAT 0.056 None
+B_n128_d2_m8_w4_t0_s10_Pknead_ws0 kissat UNSAT 0.774 31764
+B_n128_d2_m8_w4_t0_s11_Pknead_ws0 abc_cec UNSAT 0.077 None
+B_n128_d2_m8_w4_t0_s11_Pknead_ws0 abc_gcec UNSAT 0.055 None
+B_n128_d2_m8_w4_t0_s11_Pknead_ws0 kissat UNSAT 1.139 37357
+B_n128_d2_m8_w4_t0_s11_Pknead_ws0 cadical UNSAT 1.954 90482
+B_n128_d2_m8_w4_t0_s12_Pknead_ws0 kissat UNSAT 0.858 32191
+B_n128_d2_m8_w4_t0_s12_Pknead_ws0 abc_cec UNSAT 0.075 None
+B_n128_d2_m8_w4_t0_s12_Pknead_ws0 abc_gcec UNSAT 0.034 None
+B_n128_d2_m8_w4_t0_s13_Pknead_ws0 kissat UNSAT 0.558 18350
+B_n128_d2_m8_w4_t0_s13_Pknead_ws0 abc_cec UNSAT 0.066 None
+B_n128_d2_m8_w4_t0_s13_Pknead_ws0 abc_gcec UNSAT 0.045 None
+B_n128_d2_m8_w4_t0_s10_Pknead_ws0 cadical UNSAT 3.13 134157
+B_n128_d2_m8_w4_t0_s12_Pknead_ws0 cadical UNSAT 2.492 94229
+B_n128_d2_m8_w4_t0_s13_Pknead_ws0 cadical UNSAT 1.954 88653
+B_n128_d2_m8_w4_t10_s10_Pknead_ws0 abc_gcec UNSAT 0.155 None
+B_n128_d2_m8_w4_t10_s10_Pknead_ws0 abc_cec UNSAT 1.043 None
+B_n128_d2_m8_w4_t10_s10_Pknead_ws1 kissat UNSAT 1.174 48605
+B_n128_d2_m8_w4_t10_s10_Pknead_ws0 kissat UNSAT 3.042 94628
+B_n128_d2_m8_w4_t10_s10_Pknead_ws1 abc_cec UNSAT 0.607 None
+B_n128_d2_m8_w4_t10_s10_Pknead_ws1 abc_gcec UNSAT 0.196 None
+B_n128_d2_m8_w4_t10_s11_Pknead_ws0 kissat UNSAT 2.176 95881
+B_n128_d2_m8_w4_t10_s11_Pknead_ws0 abc_cec UNSAT 0.528 None
+B_n128_d2_m8_w4_t10_s11_Pknead_ws0 abc_gcec UNSAT 0.187 None
+B_n128_d2_m8_w4_t10_s10_Pknead_ws1 cadical UNSAT 6.373 222668
+B_n128_d2_m8_w4_t10_s11_Pknead_ws1 kissat UNSAT 1.343 48592
+B_n128_d2_m8_w4_t10_s10_Pknead_ws0 cadical UNSAT 9.304 270395
+B_n128_d2_m8_w4_t10_s11_Pknead_ws1 abc_cec UNSAT 0.422 None
+B_n128_d2_m8_w4_t10_s11_Pknead_ws1 abc_gcec UNSAT 0.277 None
+B_n128_d2_m8_w4_t10_s12_Pknead_ws0 kissat UNSAT 1.237 48126
+B_n128_d2_m8_w4_t10_s11_Pknead_ws0 cadical UNSAT 7.841 233393
+B_n128_d2_m8_w4_t10_s12_Pknead_ws0 abc_cec UNSAT 0.581 None
+B_n128_d2_m8_w4_t10_s12_Pknead_ws0 abc_gcec UNSAT 0.251 None
+B_n128_d2_m8_w4_t10_s11_Pknead_ws1 cadical UNSAT 5.465 171629
+B_n128_d2_m8_w4_t10_s12_Pknead_ws1 abc_cec UNSAT 0.491 None
+B_n128_d2_m8_w4_t10_s12_Pknead_ws1 abc_gcec UNSAT 0.184 None
+B_n128_d2_m8_w4_t10_s12_Pknead_ws1 kissat UNSAT 1.552 69136
+B_n128_d2_m8_w4_t10_s13_Pknead_ws0 kissat UNSAT 1.417 50681
+B_n128_d2_m8_w4_t10_s12_Pknead_ws0 cadical UNSAT 5.11 188821
+B_n128_d2_m8_w4_t10_s13_Pknead_ws0 abc_gcec UNSAT 0.285 None
+B_n128_d2_m8_w4_t10_s13_Pknead_ws0 abc_cec UNSAT 0.66 None
+B_n128_d2_m8_w4_t10_s13_Pknead_ws0 cadical UNSAT 3.653 141839
+B_n128_d2_m8_w4_t10_s13_Pknead_ws1 kissat UNSAT 1.713 57553
+B_n128_d2_m8_w4_t10_s13_Pknead_ws1 abc_cec UNSAT 0.616 None
+B_n128_d2_m8_w4_t10_s13_Pknead_ws1 abc_gcec UNSAT 0.208 None
+B_n32_d2_m8_w4_t0_s10_Pknead_ws0 kissat UNSAT 0.051 2138
+B_n32_d2_m8_w4_t0_s10_Pknead_ws0 abc_cec UNSAT 0.054 None
+B_n32_d2_m8_w4_t0_s10_Pknead_ws0 abc_gcec UNSAT 0.034 None
+B_n32_d2_m8_w4_t0_s10_Pknead_ws0 cadical UNSAT 0.445 24331
+B_n32_d2_m8_w4_t0_s11_Pknead_ws0 kissat UNSAT 0.051 3334
+B_n32_d2_m8_w4_t0_s11_Pknead_ws0 abc_cec UNSAT 0.041 None
+B_n32_d2_m8_w4_t0_s11_Pknead_ws0 abc_gcec UNSAT 0.028 None
+B_n32_d2_m8_w4_t0_s12_Pknead_ws0 cadical UNSAT 0.341 22334
+B_n32_d2_m8_w4_t0_s12_Pknead_ws0 kissat UNSAT 0.039 1018
+B_n32_d2_m8_w4_t0_s12_Pknead_ws0 abc_cec UNSAT 0.066 None
+B_n32_d2_m8_w4_t0_s12_Pknead_ws0 abc_gcec UNSAT 0.034 None
+B_n32_d2_m8_w4_t0_s11_Pknead_ws0 cadical UNSAT 0.756 32609
+B_n32_d2_m8_w4_t0_s13_Pknead_ws0 kissat UNSAT 0.049 2401
+B_n32_d2_m8_w4_t0_s13_Pknead_ws0 abc_cec UNSAT 0.04 None
+B_n32_d2_m8_w4_t0_s13_Pknead_ws0 abc_gcec UNSAT 0.03 None
+B_n128_d2_m8_w4_t10_s12_Pknead_ws1 cadical UNSAT 6.815 210363
+B_n32_d2_m8_w4_t10_s10_Pknead_ws0 kissat UNSAT 0.093 3505
+B_n32_d2_m8_w4_t10_s10_Pknead_ws0 abc_cec UNSAT 0.229 None
+B_n32_d2_m8_w4_t10_s10_Pknead_ws0 abc_gcec UNSAT 0.076 None
+B_n32_d2_m8_w4_t0_s13_Pknead_ws0 cadical UNSAT 0.686 30157
+B_n128_d2_m8_w4_t10_s13_Pknead_ws1 cadical UNSAT 4.351 168237
+B_n32_d2_m8_w4_t10_s10_Pknead_ws0 cadical UNSAT 1.234 50890
+B_n32_d2_m8_w4_t10_s10_Pknead_ws1 abc_gcec UNSAT 0.099 None
+B_n32_d2_m8_w4_t10_s10_Pknead_ws1 abc_cec UNSAT 0.316 None
+B_n32_d2_m8_w4_t10_s10_Pknead_ws1 kissat UNSAT 1.115 31906
+B_n32_d2_m8_w4_t10_s11_Pknead_ws0 kissat UNSAT 0.469 15364
+B_n32_d2_m8_w4_t10_s10_Pknead_ws1 cadical UNSAT 1.572 57060
+B_n32_d2_m8_w4_t10_s11_Pknead_ws0 abc_gcec UNSAT 0.113 None
+B_n32_d2_m8_w4_t10_s11_Pknead_ws0 abc_cec UNSAT 0.585 None
+B_n32_d2_m8_w4_t10_s11_Pknead_ws0 cadical UNSAT 0.966 39338
+B_n32_d2_m8_w4_t10_s11_Pknead_ws1 abc_gcec UNSAT 0.133 None
+B_n32_d2_m8_w4_t10_s11_Pknead_ws1 abc_cec UNSAT 0.282 None
+B_n32_d2_m8_w4_t10_s12_Pknead_ws0 kissat UNSAT 0.517 10865
+B_n32_d2_m8_w4_t10_s12_Pknead_ws0 cadical UNSAT 0.889 35638
+B_n32_d2_m8_w4_t10_s11_Pknead_ws1 kissat UNSAT 1.264 50232
+B_n32_d2_m8_w4_t10_s12_Pknead_ws0 abc_cec UNSAT 0.359 None
+B_n32_d2_m8_w4_t10_s12_Pknead_ws0 abc_gcec UNSAT 0.107 None
+B_n32_d2_m8_w4_t10_s11_Pknead_ws1 cadical UNSAT 1.557 58546
+B_n32_d2_m8_w4_t10_s12_Pknead_ws1 abc_gcec UNSAT 0.104 None
+B_n32_d2_m8_w4_t10_s12_Pknead_ws1 abc_cec UNSAT 0.304 None
+B_n32_d2_m8_w4_t10_s12_Pknead_ws1 kissat UNSAT 0.434 11252
+B_n32_d2_m8_w4_t10_s13_Pknead_ws0 abc_cec UNSAT 0.239 None
+B_n32_d2_m8_w4_t10_s13_Pknead_ws0 kissat UNSAT 0.357 11569
+B_n32_d2_m8_w4_t10_s13_Pknead_ws0 abc_gcec UNSAT 0.078 None
+B_n32_d2_m8_w4_t10_s13_Pknead_ws1 kissat UNSAT 0.132 7120
+B_n32_d2_m8_w4_t10_s13_Pknead_ws1 abc_cec UNSAT 0.217 None
+B_n32_d2_m8_w4_t10_s13_Pknead_ws1 abc_gcec UNSAT 0.075 None
+B_n32_d2_m8_w4_t10_s13_Pknead_ws0 cadical UNSAT 1.021 45328
+B_n32_d2_m8_w4_t10_s13_Pknead_ws1 cadical UNSAT 0.761 29021
+B_n64_d2_m8_w4_t0_s10_Pknead_ws0 abc_cec UNSAT 0.049 None
+B_n64_d2_m8_w4_t0_s10_Pknead_ws0 abc_gcec UNSAT 0.028 None
+B_n64_d2_m8_w4_t0_s10_Pknead_ws0 kissat UNSAT 0.258 9956
+B_n64_d2_m8_w4_t0_s11_Pknead_ws0 kissat UNSAT 0.245 9922
+B_n64_d2_m8_w4_t0_s11_Pknead_ws0 abc_cec UNSAT 0.043 None
+B_n64_d2_m8_w4_t0_s11_Pknead_ws0 abc_gcec UNSAT 0.036 None
+B_n32_d2_m8_w4_t10_s12_Pknead_ws1 cadical UNSAT 2.274 87428
+B_n64_d2_m8_w4_t0_s12_Pknead_ws0 kissat UNSAT 0.387 9766
+B_n64_d2_m8_w4_t0_s12_Pknead_ws0 abc_cec UNSAT 0.07 None
+B_n64_d2_m8_w4_t0_s12_Pknead_ws0 abc_gcec UNSAT 0.046 None
+B_n64_d2_m8_w4_t0_s10_Pknead_ws0 cadical UNSAT 1.759 83990
+B_n64_d2_m8_w4_t0_s13_Pknead_ws0 kissat UNSAT 0.172 3841
+B_n64_d2_m8_w4_t0_s13_Pknead_ws0 abc_cec UNSAT 0.085 None
+B_n64_d2_m8_w4_t0_s13_Pknead_ws0 abc_gcec UNSAT 0.047 None
+B_n64_d2_m8_w4_t0_s12_Pknead_ws0 cadical UNSAT 1.624 72607
+B_n64_d2_m8_w4_t0_s11_Pknead_ws0 cadical UNSAT 2.047 84008
+B_n64_d2_m8_w4_t10_s10_Pknead_ws0 abc_cec UNSAT 0.282 None
+B_n64_d2_m8_w4_t10_s10_Pknead_ws0 abc_gcec UNSAT 0.107 None
+B_n64_d2_m8_w4_t0_s13_Pknead_ws0 cadical UNSAT 1.246 63006
+B_n64_d2_m8_w4_t10_s10_Pknead_ws0 kissat UNSAT 0.85 28135
+B_n64_d2_m8_w4_t10_s10_Pknead_ws1 abc_cec UNSAT 0.514 None
+B_n64_d2_m8_w4_t10_s10_Pknead_ws0 cadical UNSAT 1.72 88102
+B_n64_d2_m8_w4_t10_s10_Pknead_ws1 abc_gcec UNSAT 0.105 None
+B_n64_d2_m8_w4_t10_s10_Pknead_ws1 kissat UNSAT 1.091 38731
+B_n64_d2_m8_w4_t10_s11_Pknead_ws0 abc_cec UNSAT 0.644 None
+B_n64_d2_m8_w4_t10_s11_Pknead_ws0 abc_gcec UNSAT 0.342 None
+B_n64_d2_m8_w4_t10_s10_Pknead_ws1 cadical UNSAT 2.398 102234
+B_n64_d2_m8_w4_t10_s11_Pknead_ws0 kissat UNSAT 1.926 53684
+B_n64_d2_m8_w4_t10_s11_Pknead_ws1 kissat UNSAT 1.016 34870
+B_n64_d2_m8_w4_t10_s11_Pknead_ws1 abc_gcec UNSAT 0.109 None
+B_n64_d2_m8_w4_t10_s11_Pknead_ws1 abc_cec UNSAT 0.555 None
+B_n64_d2_m8_w4_t10_s12_Pknead_ws0 kissat UNSAT 1.066 38047
+B_n64_d2_m8_w4_t10_s11_Pknead_ws0 cadical UNSAT 4.477 152335
+B_n64_d2_m8_w4_t10_s12_Pknead_ws0 abc_cec UNSAT 0.874 None
+B_n64_d2_m8_w4_t10_s12_Pknead_ws0 abc_gcec UNSAT 0.162 None
+B_n64_d2_m8_w4_t10_s12_Pknead_ws1 kissat UNSAT 0.864 34587
+B_n64_d2_m8_w4_t10_s12_Pknead_ws1 abc_cec UNSAT 0.352 None
+B_n64_d2_m8_w4_t10_s12_Pknead_ws1 abc_gcec UNSAT 0.181 None
+B_n64_d2_m8_w4_t10_s11_Pknead_ws1 cadical UNSAT 5.242 173555
+B_n64_d2_m8_w4_t10_s13_Pknead_ws0 kissat UNSAT 0.35 10810
+B_n64_d2_m8_w4_t10_s13_Pknead_ws0 abc_cec UNSAT 0.307 None
+B_n64_d2_m8_w4_t10_s13_Pknead_ws0 abc_gcec UNSAT 0.108 None
+B_n64_d2_m8_w4_t10_s12_Pknead_ws0 cadical UNSAT 5.028 155824
+B_n64_d2_m8_w4_t10_s13_Pknead_ws1 kissat UNSAT 0.56 24395
+B_n64_d2_m8_w4_t10_s13_Pknead_ws0 cadical UNSAT 2.103 97765
+B_n64_d2_m8_w4_t10_s13_Pknead_ws1 abc_gcec UNSAT 0.145 None
+B_n64_d2_m8_w4_t10_s13_Pknead_ws1 abc_cec UNSAT 0.302 None
+B_n64_d2_m8_w4_t10_s13_Pknead_ws1 cadical UNSAT 2.538 117740
+B_n64_d2_m8_w4_t10_s12_Pknead_ws1 cadical UNSAT 6.209 190144
+B_n256_d2_m8_w4_t0_s10_Pknead_ws0 abc_gcec UNSAT 0.032 None
+B_n256_d2_m8_w4_t0_s10_Pknead_ws0 abc_cec UNSAT 0.087 None
+B_n256_d2_m8_w4_t0_s11_Pknead_ws0 kissat UNSAT 1.762 65372
+B_n256_d2_m8_w4_t0_s11_Pknead_ws0 abc_cec UNSAT 0.056 None
+B_n256_d2_m8_w4_t0_s11_Pknead_ws0 abc_gcec UNSAT 0.032 None
+B_n256_d2_m8_w4_t0_s10_Pknead_ws0 kissat UNSAT 1.991 64064
+B_n256_d2_m8_w4_t0_s11_Pknead_ws0 cadical UNSAT 3.882 150853
+B_n256_d2_m8_w4_t0_s10_Pknead_ws0 cadical UNSAT 4.605 139327
+B_n256_d2_m8_w4_t10_s10_Pknead_ws0 abc_cec UNSAT 0.927 None
+B_n256_d2_m8_w4_t10_s10_Pknead_ws0 abc_gcec UNSAT 0.403 None
+B_n256_d2_m8_w4_t10_s11_Pknead_ws0 kissat UNSAT 2.316 113808
+B_n256_d2_m8_w4_t10_s11_Pknead_ws0 abc_cec UNSAT 1.288 None
+B_n256_d2_m8_w4_t10_s11_Pknead_ws0 abc_gcec UNSAT 0.364 None
+B_n256_d2_m8_w4_t10_s11_Pknead_ws0 cadical UNSAT 6.908 245362
+B_n256_d2_m8_w4_t10_s10_Pknead_ws0 cadical UNSAT 10.353 298033
+B_n256_d2_m8_w4_t10_s10_Pknead_ws0 kissat UNSAT 11.501 229255
+{"status": "UNSAT", "t_sweep": 1.17, "t_final": 0.09, "t_total": 1.25, "groups_t": 1024, "verified": 1024, "tried": 1024, "n_lemma_clauses": 24576, "instance": "B_n128_d2_m8_w4_t0_s10_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 1.04, "t_final": 0.09, "t_total": 1.13, "groups_t": 1024, "verified": 1024, "tried": 1024, "n_lemma_clauses": 24576, "instance": "B_n128_d2_m8_w4_t0_s11_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 1.23, "t_final": 0.09, "t_total": 1.32, "groups_t": 1024, "verified": 1024, "tried": 1024, "n_lemma_clauses": 24576, "instance": "B_n128_d2_m8_w4_t0_s12_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 1.07, "t_final": 0.07, "t_total": 1.14, "groups_t": 1024, "verified": 1024, "tried": 1024, "n_lemma_clauses": 24576, "instance": "B_n128_d2_m8_w4_t0_s13_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 1.03, "t_final": 0.11, "t_total": 1.13, "groups_t": 1024, "verified": 685, "tried": 685, "n_lemma_clauses": 16440, "instance": "B_n128_d2_m8_w4_t10_s10_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 0.87, "t_final": 0.09, "t_total": 0.96, "groups_t": 1024, "verified": 674, "tried": 674, "n_lemma_clauses": 16176, "instance": "B_n128_d2_m8_w4_t10_s10_Pknead_ws1"}
+{"status": "UNSAT", "t_sweep": 0.99, "t_final": 0.05, "t_total": 1.04, "groups_t": 1024, "verified": 725, "tried": 725, "n_lemma_clauses": 17400, "instance": "B_n128_d2_m8_w4_t10_s11_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 1.03, "t_final": 0.05, "t_total": 1.08, "groups_t": 1024, "verified": 716, "tried": 716, "n_lemma_clauses": 17184, "instance": "B_n128_d2_m8_w4_t10_s11_Pknead_ws1"}
+{"status": "UNSAT", "t_sweep": 0.93, "t_final": 0.08, "t_total": 1.02, "groups_t": 1024, "verified": 705, "tried": 705, "n_lemma_clauses": 16920, "instance": "B_n128_d2_m8_w4_t10_s12_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 0.91, "t_final": 0.06, "t_total": 0.98, "groups_t": 1024, "verified": 678, "tried": 678, "n_lemma_clauses": 16272, "instance": "B_n128_d2_m8_w4_t10_s12_Pknead_ws1"}
+{"status": "UNSAT", "t_sweep": 0.88, "t_final": 0.09, "t_total": 0.97, "groups_t": 1024, "verified": 689, "tried": 689, "n_lemma_clauses": 16536, "instance": "B_n128_d2_m8_w4_t10_s13_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 0.96, "t_final": 0.1, "t_total": 1.06, "groups_t": 1024, "verified": 700, "tried": 700, "n_lemma_clauses": 16800, "instance": "B_n128_d2_m8_w4_t10_s13_Pknead_ws1"}
+{"status": "UNSAT", "t_sweep": 0.08, "t_final": 0.01, "t_total": 0.09, "groups_t": 256, "verified": 256, "tried": 256, "n_lemma_clauses": 6144, "instance": "B_n32_d2_m8_w4_t0_s10_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 0.08, "t_final": 0.01, "t_total": 0.08, "groups_t": 256, "verified": 256, "tried": 256, "n_lemma_clauses": 6144, "instance": "B_n32_d2_m8_w4_t0_s11_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 0.09, "t_final": 0.01, "t_total": 0.1, "groups_t": 256, "verified": 256, "tried": 256, "n_lemma_clauses": 6144, "instance": "B_n32_d2_m8_w4_t0_s12_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 0.07, "t_final": 0.01, "t_total": 0.08, "groups_t": 256, "verified": 256, "tried": 256, "n_lemma_clauses": 6144, "instance": "B_n32_d2_m8_w4_t0_s13_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 0.1, "t_final": 0.01, "t_total": 0.11, "groups_t": 256, "verified": 169, "tried": 169, "n_lemma_clauses": 4056, "instance": "B_n32_d2_m8_w4_t10_s10_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 0.09, "t_final": 0.01, "t_total": 0.11, "groups_t": 256, "verified": 157, "tried": 157, "n_lemma_clauses": 3768, "instance": "B_n32_d2_m8_w4_t10_s10_Pknead_ws1"}
+{"status": "UNSAT", "t_sweep": 0.1, "t_final": 0.01, "t_total": 0.11, "groups_t": 256, "verified": 147, "tried": 147, "n_lemma_clauses": 3528, "instance": "B_n32_d2_m8_w4_t10_s11_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 0.08, "t_final": 0.01, "t_total": 0.09, "groups_t": 256, "verified": 162, "tried": 162, "n_lemma_clauses": 3888, "instance": "B_n32_d2_m8_w4_t10_s11_Pknead_ws1"}
+{"status": "UNSAT", "t_sweep": 0.09, "t_final": 0.01, "t_total": 0.1, "groups_t": 256, "verified": 151, "tried": 151, "n_lemma_clauses": 3624, "instance": "B_n32_d2_m8_w4_t10_s12_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 0.07, "t_final": 0.01, "t_total": 0.08, "groups_t": 256, "verified": 145, "tried": 145, "n_lemma_clauses": 3480, "instance": "B_n32_d2_m8_w4_t10_s12_Pknead_ws1"}
+{"status": "UNSAT", "t_sweep": 0.09, "t_final": 0.01, "t_total": 0.1, "groups_t": 256, "verified": 162, "tried": 162, "n_lemma_clauses": 3888, "instance": "B_n32_d2_m8_w4_t10_s13_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 0.09, "t_final": 0.01, "t_total": 0.1, "groups_t": 256, "verified": 166, "tried": 166, "n_lemma_clauses": 3984, "instance": "B_n32_d2_m8_w4_t10_s13_Pknead_ws1"}
+{"status": "UNSAT", "t_sweep": 0.23, "t_final": 0.02, "t_total": 0.26, "groups_t": 512, "verified": 512, "tried": 512, "n_lemma_clauses": 12288, "instance": "B_n64_d2_m8_w4_t0_s10_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 0.23, "t_final": 0.02, "t_total": 0.25, "groups_t": 512, "verified": 512, "tried": 512, "n_lemma_clauses": 12288, "instance": "B_n64_d2_m8_w4_t0_s11_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 0.22, "t_final": 0.02, "t_total": 0.24, "groups_t": 512, "verified": 512, "tried": 512, "n_lemma_clauses": 12288, "instance": "B_n64_d2_m8_w4_t0_s12_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 0.24, "t_final": 0.02, "t_total": 0.26, "groups_t": 512, "verified": 512, "tried": 512, "n_lemma_clauses": 12288, "instance": "B_n64_d2_m8_w4_t0_s13_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 0.24, "t_final": 0.02, "t_total": 0.26, "groups_t": 512, "verified": 342, "tried": 342, "n_lemma_clauses": 8208, "instance": "B_n64_d2_m8_w4_t10_s10_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 0.24, "t_final": 0.03, "t_total": 0.27, "groups_t": 512, "verified": 328, "tried": 328, "n_lemma_clauses": 7872, "instance": "B_n64_d2_m8_w4_t10_s10_Pknead_ws1"}
+{"status": "UNSAT", "t_sweep": 0.24, "t_final": 0.02, "t_total": 0.25, "groups_t": 512, "verified": 308, "tried": 308, "n_lemma_clauses": 7392, "instance": "B_n64_d2_m8_w4_t10_s11_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 0.26, "t_final": 0.01, "t_total": 0.27, "groups_t": 512, "verified": 306, "tried": 306, "n_lemma_clauses": 7344, "instance": "B_n64_d2_m8_w4_t10_s11_Pknead_ws1"}
+{"status": "UNSAT", "t_sweep": 0.27, "t_final": 0.02, "t_total": 0.29, "groups_t": 512, "verified": 334, "tried": 334, "n_lemma_clauses": 8016, "instance": "B_n64_d2_m8_w4_t10_s12_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 0.22, "t_final": 0.01, "t_total": 0.23, "groups_t": 512, "verified": 317, "tried": 317, "n_lemma_clauses": 7608, "instance": "B_n64_d2_m8_w4_t10_s12_Pknead_ws1"}
+{"status": "UNSAT", "t_sweep": 0.22, "t_final": 0.02, "t_total": 0.24, "groups_t": 512, "verified": 329, "tried": 329, "n_lemma_clauses": 7896, "instance": "B_n64_d2_m8_w4_t10_s13_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 0.26, "t_final": 0.02, "t_total": 0.28, "groups_t": 512, "verified": 319, "tried": 319, "n_lemma_clauses": 7656, "instance": "B_n64_d2_m8_w4_t10_s13_Pknead_ws1"}
+{"status": "UNSAT", "t_sweep": 4.86, "t_final": 0.22, "t_total": 5.08, "groups_t": 2048, "verified": 2048, "tried": 2048, "n_lemma_clauses": 49152, "instance": "B_n256_d2_m8_w4_t0_s10_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 5.74, "t_final": 0.2, "t_total": 5.94, "groups_t": 2048, "verified": 2048, "tried": 2048, "n_lemma_clauses": 49152, "instance": "B_n256_d2_m8_w4_t0_s11_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 3.41, "t_final": 0.28, "t_total": 3.69, "groups_t": 2048, "verified": 1408, "tried": 1408, "n_lemma_clauses": 33792, "instance": "B_n256_d2_m8_w4_t10_s10_Pknead_ws0"}
+{"status": "UNSAT", "t_sweep": 3.41, "t_final": 0.2, "t_total": 3.61, "groups_t": 2048, "verified": 1302, "tried": 1302, "n_lemma_clauses": 31248, "instance": "B_n256_d2_m8_w4_t10_s11_Pknead_ws0"}
+R3BSOLVE_DONE

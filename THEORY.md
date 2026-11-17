@@ -126,6 +126,10 @@ refutation of size n · 3^O(w). ∎
 - Long-range gates remove this ceiling once p·m ≫ n^(1−1/d), i.e.
   p ≫ n^(−1/d) · n/m. This is the scale of the noise parameter c in round 3
   (p = c · n^(−1/d) · n/m).
+- Removing the ceiling is necessary for hardness, not sufficient. In round 3
+  (REPORT_ROUND3.md, section C2) long-range gates were barely rewritten by
+  bounded windows. In 68–100% of cases they survived unchanged and acted as
+  frozen anchors, and the miters stayed as easy as without them.
 
 ## 4. Correspondence width and proof size (proof sketch only)
 
@@ -151,7 +155,11 @@ Then the miter has a refutation of size m · 2^O(k).
 **What is measured** (`width.width_layers`, layer cuts, calibrated in
 `results/r3_calibration.csv`): the maximum over wires at 12 sampled cuts.
 - Gauge-only rewriting gives 2–3, flat in n.
-- Kneading gives roughly log₂ n.
+- Kneading (gate set B, t = 10m) gives 3.2, 3.9, 6.0 and 7.1 at
+  n = 32, 64, 128, 256 (`results/r3_B_width.csv`).
+  - That fits 1.39·log₂ n − 4.0.
+  - A power 0.70·n^0.43 fits equally well. The two instances at n = 256 lie
+    closer to the log curve, but cannot separate the two forms.
 - Unrelated circuits give about 0.75 n.
 
 If the width is O(log n), the sketch gives polynomial refutations.
@@ -162,7 +170,9 @@ If the width is O(log n), the sketch gives polynomial refutations.
 and with the geometry fixed, keep the corrected correspondence width at
 O_w(log n) for every t?
 
-The data so far are consistent with "yes", with width ≈ log₂ n at w = 4.
+The data so far are consistent with "yes", with width ≈ 1.4·log₂ n at w = 4
+for n ≤ 256. Neither planted R·R⁻¹, nor inflation to 5m, nor long-range gates
+produced a hard miter (REPORT_ROUND3.md, sections B–C2).
 - If true, Q2 and Q3 fail for every bounded-window local process: the
   recorded transcript is recoverable in polynomial time by relation search.
 - If false, the counterexample process is the model the proposal wants.
