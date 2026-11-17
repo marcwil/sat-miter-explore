@@ -21,6 +21,8 @@ def name_of(p):
         s += "_h%g" % p["heavy_q"]
     if p.get("size_mult", 1.25) != 1.25:
         s += "_x%g" % p["size_mult"]
+    if p.get("walk_seed") is not None:
+        s += "_ws%d" % p["walk_seed"]
     return s
 
 

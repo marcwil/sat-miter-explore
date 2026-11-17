@@ -97,6 +97,83 @@ def summary(rows):
     return {k: float(np.mean([r[k] for r in rows])) for k in keys} | {"cut_max_max": max(r["cut_max"] for r in rows)}
 
 
+# ---------------------------------------------------------------- round 3: layer cuts
+def asap_layers(circ):
+    """ASAP layer of every gate w.r.t. the commutation rule of model.commute:
+    a gate must come after earlier gates that write one of its controls, read
+    one of its targets, or write one of its targets (unless both are
+    single-target XOR gates, which commute). Returns a list of layers (>= 1)."""
+    lw, lwn, lr = {}, {}, {}
+    out = []
+    for g in circ:
+        T, K = g[0], g[1]
+        x = model.is_xor_gate(g)
+        L = 0
+        for k in K:
+            L = max(L, lw.get(k, 0))
+        for a in T:
+            L = max(L, lr.get(a, 0), lwn.get(a, 0) if x else lw.get(a, 0))
+        L += 1
+        for k in K:
+            lr[k] = max(lr.get(k, 0), L)
+        for a in T:
+            lw[a] = max(lw.get(a, 0), L)
+            if not x:
+                lwn[a] = max(lwn.get(a, 0), L)
+        out.append(L)
+    return out
+
+
+def layered(circ):
+    """Reorder by (layer, index) -- a linear extension of the dependency order,
+    hence the same function. Returns (circuit, prefix length after each layer)."""
+    lay = asap_layers(circ)
+    order = sorted(range(len(circ)), key=lambda i: (lay[i], i))
+    L = max(lay) if lay else 0
+    counts = np.bincount(lay, minlength=L + 1)
+    bounds = np.cumsum(counts)  # bounds[l] = number of gates with layer <= l
+    return [circ[i] for i in order], [int(b) for b in bounds]
+
+
+def width_layers(C0, Ct, n, ncuts=12, P=256, seed=0, span=0.12, min_span=3):
+    """Correspondence width with ASAP-layer cuts.
+    For each sampled C_t layer cut lt, search C_0 layer cuts l0 near the relative
+    position and take the one minimising max_w |D(w)| (ties: mean). Reports the
+    max over wires at the best l0 ('cut_max'), the mean over wires there, and the
+    per-wire minimum over the searched l0 (secondary)."""
+    C0L, b0 = layered(C0)
+    CtL, bt = layered(Ct)
+    L0, Lt = len(b0) - 1, len(bt) - 1
+    pf = Prefixes(C0L, CtL, n, P, seed)
+    rows = []
+    for q in range(1, ncuts + 1):
+        lt = int(round(q * Lt / (ncuts + 1)))
+        c = lt * L0 / Lt
+        s = max(min_span, int(round(span * L0)))
+        cand = range(max(0, int(c) - s), min(L0, int(c) + s + 1) + 1)
+        best, res = None, {}
+        for l0 in cand:
+            sz = pf.deps(b0[l0], bt[lt]).sum(1)
+            res[l0] = sz
+            key = (int(sz.max()), float(sz.mean()))
+            if best is None or key < best[0]:
+                best = (key, l0)
+        l0 = best[1]
+        pw = np.min(np.stack(list(res.values())), axis=0)
+        rows.append(dict(lt=lt, l0=l0, Lt=Lt, L0=L0, cut_max=int(res[l0].max()), cut_mean=float(res[l0].mean()),
+                         wire_mean=float(pw.mean()), wire_max=int(pw.max())))
+    return rows
+
+
+def summary_layers(rows):
+    cm = [r["cut_max"] for r in rows]
+    return dict(lcut_max_mean=float(np.mean(cm)), lcut_max_max=int(np.max(cm)),
+                lcut_max_median=float(np.median(cm)),
+                lcut_mean=float(np.mean([r["cut_mean"] for r in rows])),
+                lwire_mean=float(np.mean([r["wire_mean"] for r in rows])),
+                L0=rows[0]["L0"], Lt=rows[0]["Lt"])
+
+
 if __name__ == "__main__":
     for path in sys.argv[1:]:
         inst = instance.load(path)

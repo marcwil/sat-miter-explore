@@ -31,6 +31,8 @@ def generate(p):
         if not any(w in heavy for w in g[0]):
             C0.append(g)
     mix.SAMPLER = q.get("sampler", "fp")
+    if q.get("walk_seed") is not None:  # separate randomness for the rewriting walk
+        rng = np.random.default_rng(10_000 + q["walk_seed"])
     snaps = sorted(q.get("snap", [q["tfrac"]]))
     out, Ct, tr, done, t0 = [], C0, [], 0, time.time()
     agg = {}
